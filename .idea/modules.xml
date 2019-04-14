@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dypro_damain/dypro_damain.iml" filepath="$PROJECT_DIR$/dypro_damain/dypro_damain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dypro_dao/dypro_dao.iml" filepath="$PROJECT_DIR$/dypro_dao/dypro_dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dypro_service/dypro_service.iml" filepath="$PROJECT_DIR$/dypro_service/dypro_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dypro_utils/dypro_utils.iml" filepath="$PROJECT_DIR$/dypro_utils/dypro_utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dypro_web/dypro_web.iml" filepath="$PROJECT_DIR$/dypro_web/dypro_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dyprossm.iml" filepath="$PROJECT_DIR$/dyprossm.iml" />
+    </modules>
+  </component>
+</project>

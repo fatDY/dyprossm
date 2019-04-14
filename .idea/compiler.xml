@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dypro_damain" />
+        <module name="dypro_dao" />
+        <module name="dypro_service" />
+        <module name="dypro_utils" />
+        <module name="dypro_web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dypro_damain" target="1.8" />
+      <module name="dypro_dao" target="1.8" />
+      <module name="dypro_service" target="1.8" />
+      <module name="dypro_utils" target="1.8" />
+      <module name="dypro_web" target="1.8" />
+      <module name="dyprossm" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
