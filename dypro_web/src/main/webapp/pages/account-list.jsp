@@ -111,6 +111,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/plugins/morris/morris.css">
 <link rel="stylesheet"
+
 	href="${pageContext.request.contextPath}/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/plugins/datepicker/datepicker3.css">
