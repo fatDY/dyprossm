@@ -17,4 +17,9 @@ public class IAccountServiceImpl implements IAccountService {
     public List<Account> findAll() throws Exception {
         return accountDao.findAll();
     }
+
+    @Override
+    public Account selectByAccountNo(String accountNo) throws Exception {
+        return accountDao.selectByAccountNo(accountNo);
+    }
 }

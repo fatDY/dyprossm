@@ -9,7 +9,7 @@ public class Account {
     private String accountNo; //账户号
     private String accountName; //账户名
     private String accountPurposeId; //账户用途
-    private String bankId; //账户所属银行ID
+    private Bank bankId; //账户所属银行ID
     private String accountType; //账户性质
 
     public int getId() {
@@ -52,11 +52,11 @@ public class Account {
         this.accountPurposeId = accountPurposeId;
     }
 
-    public String getBankId() {
+    public Bank getBankId() {
         return bankId;
     }
 
-    public void setBankId(String bankId) {
+    public void setBankId(Bank bankId) {
         this.bankId = bankId;
     }
 
@@ -76,7 +76,7 @@ public class Account {
                 ", accountNo='" + accountNo + '\'' +
                 ", accountName='" + accountName + '\'' +
                 ", accountPurposeId='" + accountPurposeId + '\'' +
-                ", bankId='" + bankId + '\'' +
+                ", bankId=" + bankId +
                 ", accountType='" + accountType + '\'' +
                 '}';
     }

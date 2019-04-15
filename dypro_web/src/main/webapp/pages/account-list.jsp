@@ -145,6 +145,9 @@
 	href="${pageContext.request.contextPath}/plugins/bootstrap-slider/slider.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+	<script type="javascript">
+
+	</script>
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini">
@@ -216,9 +219,10 @@
 							</div>
 							<div class="box-tools pull-right">
 								<div class="has-feedback">
-									<input type="text" class="form-control input-sm"
-										placeholder="搜索"> <span
-										class="glyphicon glyphicon-search form-control-feedback"></span>
+									<input id="searchNo" type="text" class="form-control input-sm"
+										placeholder="搜索账户号">
+									<a class="glyphicon glyphicon-search form-control-feedback"
+									   href="javascript:search();"></a>
 								</div>
 							</div>
 							<!--工具栏/-->
@@ -232,13 +236,13 @@
 											id="selall" type="checkbox" class="icheckbox_square-blue">
 										</th>
 										<th class="sorting_asc">ID</th>
-										<th class="sorting_desc">编号</th>
-										<th class="sorting_asc sorting_asc_disabled">产品名称</th>
-										<th class="sorting_desc sorting_desc_disabled">出发城市</th>
-										<th class="sorting">出发时间</th>
-										<th class="text-center sorting">产品价格</th>
-										<th class="sorting">产品描述</th>
-										<th class="text-center sorting">状态</th>
+										<th class="sorting_desc">账户名称</th>
+										<th class="sorting_asc sorting_asc_disabled">账户号码</th>
+										<th class="sorting_desc sorting_desc_disabled">账户性质</th>
+										<th class="sorting">账户类别</th>
+										<th class="text-center sorting">账户银行</th>
+										<th class="sorting">账户银行联行号</th>
+										<th class="text-center sorting">账户银行开户地</th>
 										<th class="text-center">操作</th>
 									</tr>
 								</thead>
@@ -254,9 +258,13 @@
 											<td>${account.accountNo }</td>
 											<td>${account.accountPurposeId }</td>
 											<td>${account.accountType}</td>
-											<%--<td class="text-center">${account.productPrice }</td>
-											<td>${account.productDesc }</td>
-											<td class="text-center">${account.productStatusStr }</td>--%>
+											<td>${account.bankId.bankName}</td>
+											<td>${account.bankId.uniteCode}</td>
+											<td>${account.bankId.location}</td>
+
+											<%--<td class="text-center">${account.productPrice }</td>--%>
+											<%--<td>${account.productDesc }</td>--%>
+											<%--<td class="text-center">${account.productStatusStr }</td>--%>
 											<td class="text-center">
 												<button type="button" class="btn bg-olive btn-xs">订单</button>
 												<button type="button" class="btn bg-olive btn-xs">详情</button>
