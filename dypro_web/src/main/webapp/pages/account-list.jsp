@@ -241,8 +241,8 @@
 										<th class="sorting_desc sorting_desc_disabled">账户性质</th>
 										<th class="sorting">账户类别</th>
 										<th class="text-center sorting">账户银行</th>
-										<th class="sorting">账户银行联行号</th>
-										<th class="text-center sorting">账户银行开户地</th>
+								<%--		<th class="sorting">账户银行联行号</th>
+										<th class="text-center sorting">账户银行开户地</th>--%>
 										<th class="text-center">操作</th>
 									</tr>
 								</thead>
@@ -259,8 +259,8 @@
 											<td>${account.accountPurposeId }</td>
 											<td>${account.accountType}</td>
 											<td>${account.bankId.bankName}</td>
-											<td>${account.bankId.uniteCode}</td>
-											<td>${account.bankId.location}</td>
+										<%--	<td>${account.bankId.uniteCode}</td>
+											<td>${account.bankId.location}</td>--%>
 
 											<%--<td class="text-center">${account.productPrice }</td>--%>
 											<%--<td>${account.productDesc }</td>--%>

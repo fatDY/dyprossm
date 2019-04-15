@@ -4,7 +4,8 @@ public class Bank {
     private Integer id;//id
     private String bankName;//银行名称
     private String uniteCode;//联行号
-    private String location;//地址多余字段
+    private String bankProvince;//省份
+    private String bankCity;//城市
 
     public Integer getId() {
         return id;
@@ -30,12 +31,20 @@ public class Bank {
         this.uniteCode = uniteCode;
     }
 
-    public String getLocation() {
-        return location;
+    public String getBankProvince() {
+        return bankProvince;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setBankProvince(String bankProvince) {
+        this.bankProvince = bankProvince;
+    }
+
+    public String getBankCity() {
+        return bankCity;
+    }
+
+    public void setBankCity(String bankCity) {
+        this.bankCity = bankCity;
     }
 
     @Override
@@ -44,7 +53,8 @@ public class Bank {
                 "id=" + id +
                 ", bankName='" + bankName + '\'' +
                 ", uniteCode='" + uniteCode + '\'' +
-                ", location='" + location + '\'' +
+                ", bankProvince='" + bankProvince + '\'' +
+                ", bankCity='" + bankCity + '\'' +
                 '}';
     }
 }
