@@ -20,4 +20,11 @@ public interface IPermissionDao {
             @Result(property = "url", column = "url"),
     })
     List<Permission> findPermissionByRoleId(@Param("roleid") Integer id) throws Exception;
+
+    /**
+     * 查询所有权限信息
+     * @return
+     */
+    @Select("select * from permission")
+    List<Permission> findAll() throws Exception;
 }
