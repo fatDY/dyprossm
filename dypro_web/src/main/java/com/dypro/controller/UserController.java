@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -38,11 +39,21 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping("save.do")
-    public String save(UserInfo userInfo) throws  Exception{
-       // ModelAndView mv =new ModelAndView();
-        userService.save(userInfo);
-
-        return "redirect:findAll.do";
+    public String save(UserInfo userInfo, HttpServletRequest request){
+        if(userInfo.getUsername()!=""&&!"".equals(userInfo.getUsername())
+                &&userInfo.getPassword()!=""&&!"".equals(userInfo.getPassword())){
+            try {
+                userService.save(userInfo);
+                return "redirect:findAll.do";
+            } catch (Exception e) {
+                request.setAttribute("Message","添加用户失败，请检查用户是否已存在");
+                return "user-add";
+            }
+        }
+        else {
+            request.setAttribute("Message","用户或密码不能为空");
+            return "user-add";
+        }
     }
 
     /**

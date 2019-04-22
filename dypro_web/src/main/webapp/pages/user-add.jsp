@@ -92,7 +92,7 @@
 			<!-- 内容头部 /-->
 
 			<form action="${pageContext.request.contextPath}/user/save.do"
-				method="post">
+				method="post" onsubmit="check()">
 				<!-- 正文区域 -->
 				<section class="content"> <!--产品信息-->
 
@@ -104,12 +104,12 @@
 						<div class="col-md-4 title">密码</div>
 						<div class="col-md-4 title">用户状态</div>
 						<div class="col-md-4 data">
-							<input type="text" class="form-control" name="username"
+							<input type="text" class="form-control" name="username" id="username"
 								placeholder="用户名称" value="">
 						</div>
 
 						<div class="col-md-4 data">
-							<input type="password" class="form-control" name="password"
+							<input type="password" class="form-control" name="password" id="password"
 								placeholder="密码" value="">
 						</div>
 
@@ -235,6 +235,13 @@
 		src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 	<script>
+        <%
+         String Message=(String) request.getAttribute("Message");
+         if (Message!=null&&!"".equals(Message)){
+             %>
+        alert("<%=Message %>");<%
+		 }
+		%>
 		$(document).ready(function() {
 			// 选择框
 			$(".select2").select2();
