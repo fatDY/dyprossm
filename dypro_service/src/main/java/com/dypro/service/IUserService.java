@@ -1,5 +1,6 @@
 package com.dypro.service;
 
+import com.dypro.domain.Role;
 import com.dypro.domain.UserInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -25,4 +26,18 @@ public interface IUserService extends UserDetailsService {
      * @return
      */
     UserInfo findById(Integer id) throws Exception;
+
+    /**
+     * 根据用户ID查询可添加的其他ROles
+     * @param i
+     * @return
+     */
+    List<Role> findOtherRoles(Integer id);
+
+    /**
+     * 根据返回的roleId添加用户角色
+     * @param userId
+     * @param roleIds
+     */
+    void addRoleToUser(Integer userId, String[] roleIds) throws Exception;
 }

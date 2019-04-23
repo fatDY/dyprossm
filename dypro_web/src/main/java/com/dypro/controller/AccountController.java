@@ -19,7 +19,7 @@ public class AccountController {
     private IAccountService accountService;
 
     @RequestMapping("findAll.do")
-    public ModelAndView findAll(){
+    public ModelAndView findAll() {
         ModelAndView mv=new ModelAndView();
         try {
             List<Account> accountList = accountService.findAll();

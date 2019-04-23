@@ -14,20 +14,19 @@ public interface IBankDao {
      * @return
      */
     @Select("select * from bank where id = #{id}")
-    Bank selectById(@Param("id") Integer id);
+    Bank selectById(@Param("id") Integer id) throws Exception;
 
     /**
      * 查询银行所有信息
      * @return
      */
     @Select("select * from bank")
-    List<Bank> findAll();
+    List<Bank> findAll() throws Exception;
 
     /**
      * 插入银行语句
      * @param bank
      */
-    @Insert("insert into bank(bankname,unitecod,bankProvince,bankCity)values(#{bankName},#{uniteCod},#{bankProvince},#{bankCity})")
-    @Options(useGeneratedKeys = true,keyProperty = "id")
-    void insertBank(Bank bank);
+    @Insert("insert into bank(bankname,unitecod,bankprovince,bankcity)values(#{bankName},#{uniteCod},#{bankProvince},#{bankCity})")
+    void insertBank(Bank bank) throws Exception;
 }

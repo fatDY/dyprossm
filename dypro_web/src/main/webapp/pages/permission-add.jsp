@@ -80,7 +80,7 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				权限管理 <small>权限表单</small>
+				资源权限管理 <small>资源权限表单</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
@@ -105,10 +105,10 @@
 							<input type="text" class="form-control" name="permissionName"
 								placeholder="权限名称" value="">
 						</div>
-						<div class="col-md-2 title">权限资源路径</div>
+						<div class="col-md-2 title">URL</div>
 						<div class="col-md-4 data">
 							<input type="text" class="form-control" name="url"
-								placeholder="权限资源路径" value="">
+								placeholder="URL" value="">
 						</div>
 										
 

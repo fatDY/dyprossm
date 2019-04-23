@@ -13,15 +13,15 @@ public interface IBankService {
      * @param id
      * @return
      */
-    public Bank selectById(Integer id);
+    Bank selectById(Integer id) throws Exception;
 
     /**
      * 查询银行所有信息
      * @return
      */
-    public List<Bank> findAll();
+    List<Bank> findAll() throws Exception;
     /**
      * 插入银行信息
      */
-    public void insertBank(Bank bank);
+    void insertBank(Bank bank) throws Exception;
 }

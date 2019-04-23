@@ -1,5 +1,6 @@
 package com.dypro.dao;
 
+import com.dypro.domain.Role;
 import com.dypro.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
 
@@ -41,4 +42,8 @@ public interface IUserDao {
     }
     )
     UserInfo findById(@Param("userid")Integer id);
+    @Select("select * from role where id not in(select roleId from users_role where userId=#{userId})")
+    List<Role> findOtherRoles(Integer id);
+    @Insert("insert into users_role (userId,roleId) values(#{userId},#{roleId})")
+    void addRoleToUser(@Param("userId") Integer userId, @Param("roleId") String roleId) throws Exception;
 }

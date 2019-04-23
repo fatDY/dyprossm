@@ -66,11 +66,15 @@
 				</span>
 			</a>
 				<ul class="treeview-menu">
-
+					<li id="system-setting"><a
+							href="${pageContext.request.contextPath}/bank/findAll.do"> <i
+							class="fa fa-circle-o"></i> 银行管理
+					</a></li>
 					<li id="system-setting"><a
 						href="${pageContext.request.contextPath}/account/findAll.do">
 							<i class="fa fa-circle-o"></i> 账户管理
 					</a></li>
+
 					<li id="system-setting"><a
 						href="${pageContext.request.contextPath}/orders/findAll.do?page=1&size=4"> <i
 							class="fa fa-circle-o"></i> 订单管理

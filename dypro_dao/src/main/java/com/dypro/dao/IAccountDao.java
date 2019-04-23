@@ -20,9 +20,7 @@ public interface IAccountDao {
                     one = @One(select = "com.dypro.dao.IBankDao.selectById")
             )
     })
-
-
-    public List<Account> findAll() throws Exception;
+    List<Account> findAll() throws Exception;
 
     /**
      * 根据银行号码获取Account类
@@ -38,7 +36,7 @@ public interface IAccountDao {
                     one = @One(select = "com.dypro.dao.IBankDao.selectById")
             )
     })
-    public Account selectByAccountNo(@Param("accountNo") String accountNo);
+    Account selectByAccountNo(@Param("accountNo") String accountNo) throws Exception;
 
 
 }

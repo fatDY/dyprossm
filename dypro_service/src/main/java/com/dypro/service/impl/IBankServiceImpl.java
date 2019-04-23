@@ -14,17 +14,17 @@ public class IBankServiceImpl implements IBankService {
     @Autowired
     private IBankDao bankDao;
     @Override
-    public Bank selectById(Integer id) {
+    public Bank selectById(Integer id) throws Exception {
         return bankDao.selectById(id) ;
     }
 
     @Override
-    public List<Bank> findAll() {
+    public List<Bank> findAll() throws Exception {
         return bankDao.findAll();
     }
 
     @Override
-    public void insertBank(Bank bank) {
+    public void insertBank(Bank bank) throws Exception {
         bankDao.insertBank(bank);
     }
 }
