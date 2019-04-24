@@ -1,5 +1,6 @@
 package com.dypro.service;
 
+import com.dypro.domain.Permission;
 import com.dypro.domain.Role;
 
 import java.util.List;
@@ -20,4 +21,20 @@ public interface IRoleService {
      * @throws Exception
      */
     void save(Role role) throws Exception;
+
+    /**
+     * 根据角色ID查询
+     * @param roleId
+     * @return
+     */
+    Role findById(Integer roleId) throws Exception;
+
+    /**
+     * 查询权限资源
+     * @param roleId
+     * @return
+     */
+    List<Permission> findOtherPermission(Integer roleId) throws Exception;
+
+    void addPermissionToRole(Integer id, String[] permissionIds) throws Exception;
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 /**
@@ -18,7 +19,8 @@ public class AccountController {
     @Autowired
     private IAccountService accountService;
 
-    @RequestMapping("findAll.do")
+    @RequestMapping("/findAll.do")
+/*    @RolesAllowed("ADMIN")*/
     public ModelAndView findAll() {
         ModelAndView mv=new ModelAndView();
         try {
