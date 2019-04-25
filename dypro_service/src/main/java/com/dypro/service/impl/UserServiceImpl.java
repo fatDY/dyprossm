@@ -78,4 +78,15 @@ public class UserServiceImpl implements IUserService {
             userDao.addRoleToUser(userId,roleId);
         }
     }
+
+    @Override
+    public UserInfo findUserByUsername(String username) throws Exception {
+        return userDao.findByUserName(username);
+    }
+
+    @Override
+    public void passwordUpdate(Integer id, String password) throws Exception {
+        //先进行密码加密
+        userDao.passwordUpdate(id,BCryptPasswordEncoderUtils.encodePassword(password.toString()));
+    }
 }

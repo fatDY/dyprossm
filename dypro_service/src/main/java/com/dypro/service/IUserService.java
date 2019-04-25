@@ -40,4 +40,18 @@ public interface IUserService extends UserDetailsService {
      * @param roleIds
      */
     void addRoleToUser(Integer userId, String[] roleIds) throws Exception;
+
+    /**
+     * 根据用户名查找User
+     * @param username
+     * @return
+     */
+    UserInfo findUserByUsername(String username) throws Exception;
+
+    /**
+     * 根据用户保存密码
+     * @param id
+     * @param password
+     */
+    void passwordUpdate(Integer id, String password) throws Exception;
 }

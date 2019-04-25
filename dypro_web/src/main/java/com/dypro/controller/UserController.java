@@ -21,6 +21,37 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+    /**
+     * 根据指定用户名id，更新用户密码
+     */
+    @RequestMapping("/passwordUpdate.do")
+    public String passwordUpdateById(UserInfo user,HttpServletRequest request)  {
+
+        try {
+            userService.passwordUpdate(user.getId(),user.getPassword());
+            request.setAttribute("Message","修改密码成功");
+            return "main";
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("Message","修改密码失败");
+            return "password-update";
+        }
+
+    }
+    /**
+     * 根据指定用户名返回用户信息
+     * @param username
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/findUserByUsername.do")
+    public ModelAndView fidnUserByUsername(@RequestParam(name = "username",required = true)String username) throws Exception {
+        ModelAndView mv=new ModelAndView();
+        UserInfo userInfo=userService.findUserByUsername(username);
+        mv.addObject("user",userInfo);
+        mv.setViewName("password-update");
+        return mv;
+    }
     @RequestMapping("/addRoleToUser.do")
    public String addRoleToUser(@RequestParam(name = "userId") Integer userId, @RequestParam(name = "ids") String[] roleIds,HttpServletRequest request){
         try {
