@@ -21,6 +21,56 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    /**
+     * 根据角色ID删除用户所绑定角色
+     * @param userId
+     * @param roleIds
+     * @param request
+     * @return
+     */
+    @RequestMapping("/removeRoleToUser.do")
+    public String removeRoleToUser(@RequestParam(name = "userId") Integer userId, @RequestParam(name = "ids") String[] roleIds,HttpServletRequest request){
+        try {
+            userService.removeRoleToUser(userId,roleIds);
+            request.setAttribute("Message","添加角色成功");
+            return "redirect:findUserByIdToRole.do?id="+userId;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            request.setAttribute("Message","添加角色失败");
+            return "user-role-remove";
+        }
+    }
+
+    @RequestMapping("/findUserByIdToRole.do")
+    public ModelAndView findUserByIdToRole(@RequestParam(name = "id",required = true)Integer userId){
+        ModelAndView mv=new ModelAndView();
+        //根据用户ID查询用户
+        try {
+            UserInfo userInfo = userService.findById(userId);
+            mv.addObject("user",userInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mv.setViewName("user-role-remove");
+        return mv;
+    }
+
+    @RequestMapping("/delUserById.do")
+    public String delUserById(@RequestParam(name = "id") Integer userid){
+        try {
+            UserInfo userInfo = userService.findById(userid);
+            if (userInfo.getRoles()!=null&&userInfo.getRoles().size()>0){
+                userService.delUserToRole(userid);
+            }
+            userService.delUserById(userid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:findAll.do";
+    }
     /**
      * 根据指定用户名id，更新用户密码
      */

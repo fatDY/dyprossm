@@ -152,6 +152,8 @@
 											<td class="text-center">
 												<a href="${pageContext.request.contextPath}/user/findById.do?id=${user.id}" class="btn bg-olive btn-xs">详情</a>
 												<a href="${pageContext.request.contextPath}/user/findUserByIdAndAllRole.do?id=${user.id}" class="btn bg-olive btn-xs">添加角色</a>
+												<a href="${pageContext.request.contextPath}/user/findUserByIdToRole.do?id=${user.id}" class="btn bg-olive btn-xs">删除角色</a>
+												<button class="btn bg-olive btn-xs" value="${user.id}" onclick="delteUser(this.value)">删除用户</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -276,6 +278,12 @@
 		<script src="../plugins/ionslider/ion.rangeSlider.min.js"></script>
 		<script src="../plugins/bootstrap-slider/bootstrap-slider.js"></script>
 		<script>
+			function delteUser(userid) {
+				var id=userid;
+				if (confirm("是否要删除该角色")){
+				    location.href="${pageContext.request.contextPath}/user/delUserById.do?id="+id;
+				}
+            }
 			$(document).ready(function() {
 				// 选择框
 				$(".select2").select2();

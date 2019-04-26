@@ -7,7 +7,7 @@
 <!-- 页面meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>数据 - AdminLTE2定制版</title>
+<title>删除角色</title>
 <meta name="description" content="AdminLTE2定制版">
 <meta name="keywords" content="AdminLTE2定制版">
 
@@ -80,25 +80,25 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				角色管理 <small>添加权限表单</small>
+				用户管理 <small>删除角色表单</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
 				<li><a
-					href="${pageContext.request.contextPath}/role/findAll.do">角色管理</a></li>
-				<li class="active">添加权限表单</li>
+					href="${pageContext.request.contextPath}/user/findAll.do">用户管理</a></li>
+				<li class="active">删除角色表单</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
 
 			<form
-				action="${pageContext.request.contextPath}/role/addPemissionToRole.do"
+				action="${pageContext.request.contextPath}/user/removeRoleToUser.do"
 				method="post">
 				<!-- 正文区域 -->
 				<section class="content"> 
 				
-				<input type="hidden" name="roleId" value="${role.id}">
+				<input type="hidden" name="userId" value="${user.id}">
 				
 					<table id="dataList"
 							class="table table-bordered table-striped table-hover dataTable">
@@ -108,21 +108,21 @@
 									<input id="selall" 
 										type="checkbox" class="icheckbox_square-blue"></th>
 									<th class="sorting_asc">ID</th>
-									<th class="sorting">权限资源名称</th>
-									<th class="sorting">URL</th>
+									<th class="sorting">角色名称</th>
+									<th class="sorting">角色描述</th>									
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${permissionList}" var="permission">
+								<c:forEach items="${user.roles}" var="role">
 									<tr>
 										<td>
 										
-										<input name="ids" type="checkbox" value="${permission.id}">
+										<input name="ids" type="checkbox" value="${role.id}">
 										
 										</td>
-										<td>${permission.id}</td>
-										<td>${permission.permissionName }</td>
-										<td>${permission.url}</td>
+										<td>${role.id}</td>
+										<td>${role.roleName }</td>
+										<td>${role.roleDesc}</td>
 										
 									</tr>
 								</c:forEach>
@@ -131,9 +131,9 @@
 						</table>
 				<!--订单信息/--> <!--工具栏-->
 				<div class="box-tools text-center">
-					<button type="submit" class="btn bg-maroon">保存</button>
+					<button type="submit" class="btn bg-maroon">提交</button>
 					<button type="button" class="btn bg-default"
-						onclick="location.href='${pageContext.request.contextPath}/role/findAll.do'">返回</button>
+						onclick="location.href='${pageContext.request.contextPath}/user/findAll.do'">返回</button>
 				</div>
 				<!--工具栏/--> </section>
 				<!-- 正文区域 /-->

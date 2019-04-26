@@ -80,6 +80,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void removeRoleToUser(Integer userId, String[] roleIds) throws Exception {
+        for (String roleId : roleIds) {
+            userDao.removeRoleToUser(userId,roleId);
+        }
+    }
+
+    @Override
     public UserInfo findUserByUsername(String username) throws Exception {
         return userDao.findByUserName(username);
     }
@@ -88,5 +95,15 @@ public class UserServiceImpl implements IUserService {
     public void passwordUpdate(Integer id, String password) throws Exception {
         //先进行密码加密
         userDao.passwordUpdate(id,BCryptPasswordEncoderUtils.encodePassword(password.toString()));
+    }
+
+    @Override
+    public void delUserToRole(Integer userId) throws Exception {
+        userDao.delUserToRole(userId);
+    }
+
+    @Override
+    public void delUserById(Integer userId) throws Exception {
+        userDao.delUserById(userId);
     }
 }
