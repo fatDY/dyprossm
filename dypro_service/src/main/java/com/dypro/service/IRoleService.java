@@ -36,5 +36,37 @@ public interface IRoleService {
      */
     List<Permission> findOtherPermission(Integer roleId) throws Exception;
 
+    /**
+     * 添加权限给角色
+     * @param id
+     * @param permissionIds
+     * @throws Exception
+     */
     void addPermissionToRole(Integer id, String[] permissionIds) throws Exception;
+
+    /**
+     * 角色更新
+     * @param role
+     */
+    void roleUpdate(Role role) throws Exception;
+
+    /**
+     * 根据角色ID与权限资源ID移除权限资源
+     * @param roleId
+     * @param permissionIds
+     * @throws Exception
+     */
+    void removePermissionToRole(Integer roleId, String[] permissionIds)throws Exception;
+
+    /**
+     * 根据用户id删除所拥有的所有权限
+     * @param roleid
+     */
+    void delRoleToPermission(Integer roleid) throws Exception;
+
+    /**
+     * 根据角色id删除角色
+     * @param roleid
+     */
+    void delRoleById(Integer roleid) throws Exception;
 }

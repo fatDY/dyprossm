@@ -40,4 +40,29 @@ public class RoleServiceImpl implements IRoleService {
             roleDao.addPermissionToRole(id,permissionId);
         }
     }
+
+    @Override
+    public void roleUpdate(Role role) throws Exception {
+        Integer id=role.getId();
+        String roleName=role.getRoleName();
+        String roleDesc=role.getRoleDesc();
+        roleDao.roleUpdate(id,roleName,roleDesc);
+    }
+
+    @Override
+    public void removePermissionToRole(Integer roleId, String[] permissionIds) {
+        for (String permissionId : permissionIds) {
+            roleDao.removePermissionToRole(roleId,permissionId);
+        }
+    }
+
+    @Override
+    public void delRoleToPermission(Integer roleid) {
+        roleDao.delRoleToPermisson(roleid);
+    }
+
+    @Override
+    public void delRoleById(Integer roleid) {
+        roleDao.delRoleById(roleid);
+    }
 }

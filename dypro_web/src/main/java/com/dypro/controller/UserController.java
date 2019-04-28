@@ -34,12 +34,12 @@ public class UserController {
     public String removeRoleToUser(@RequestParam(name = "userId") Integer userId, @RequestParam(name = "ids") String[] roleIds, HttpServletRequest request) {
         try {
             userService.removeRoleToUser(userId, roleIds);
-            request.setAttribute("Message", "添加角色成功");
+            request.setAttribute("Message", "删除角色成功");
             return "redirect:findUserByIdToRole.do?id=" + userId;
         } catch (Exception e) {
             e.printStackTrace();
 
-            request.setAttribute("Message", "添加角色失败");
+            request.setAttribute("Message", "删除角色失败");
             return "user-role-remove";
         }
     }
