@@ -20,6 +20,21 @@ public class RoleController {
     private IRoleService roleService;
 
     /**
+     * 查询指定ID的用户信息
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/findById.do")
+    public ModelAndView findById(Integer id) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        Role roleInfo=roleService.findById(id);
+        mv.addObject("roleinfo", roleInfo);
+        mv.setViewName("role-show");
+        return mv;
+    }
+
+    /**
      * 添加权限方法
      */
     @RequestMapping("/addPemissionToRole.do")

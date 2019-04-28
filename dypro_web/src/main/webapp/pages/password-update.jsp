@@ -99,15 +99,14 @@
 					<div class="panel-heading">用户信息</div>
 					<div class="row data-type">
 
-						<div class="col-md-4 title">用户名称</div>
-						<div class="col-md-4 title">密码</div>
-						<div class="col-md-4 title">用户状态</div>
-						<div class="col-md-4 data">
+						<div class="col-md-6 title">用户名称</div>
+						<div class="col-md-6 title">密码</div>
+						<div class="col-md-6 data">
 							<input type="text" class="form-control" name="username" id="username"
 								placeholder="用户名称" value="${user.username}" readonly>
 						</div>
 
-						<div class="col-md-4 data">
+						<div class="col-md-6 data">
 							<input type="password" class="form-control" name="password" id="password"
 								placeholder="密码" value="">
 						</div>

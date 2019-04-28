@@ -34,6 +34,13 @@ public interface IRoleDao {
     void save(Role role);
 
     @Select("select * from role where id = #{roleId}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "roleName", column = "roleName"),
+            @Result(property = "roleDesc", column = "roleDesc"),
+            @Result(property = "permissions", column = "id", javaType = java.util.List.class, many = @Many(select = "com.dypro.dao.IPermissionDao.findPermissionByRoleId"))
+
+    })
     Role findByID(@Param("roleId") Integer roleId) throws Exception;
 
     @Select("select * from permission where id not in(select permissionId from role_permission where roleId= #{roleId})")
