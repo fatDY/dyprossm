@@ -28,4 +28,29 @@ public class PermissionServiceImpl implements IPermissionService {
     public void save(Permission permission) {
         permissionDao.save(permission);
     }
+
+    @Override
+    public Permission findById(Integer permissionId) {
+        return permissionDao.findById(permissionId);
+    }
+
+    @Override
+    public void permissionUpdate(Permission permission) {
+        permissionDao.permissionUpdate(permission);
+    }
+
+    @Override
+    public boolean findUsedRoleById(Integer permissionId) throws Exception {
+        boolean flag=false;
+       List<String> list= permissionDao.findUsedRoleById(permissionId);
+       if (list.size()!=0){
+           flag=true;
+       }
+        return flag;
+    }
+
+    @Override
+    public void delPermissionById(Integer permissionId) throws Exception {
+        permissionDao.delPermissionById(permissionId);
+    }
 }
