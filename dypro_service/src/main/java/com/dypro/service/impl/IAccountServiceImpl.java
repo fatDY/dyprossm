@@ -22,4 +22,9 @@ public class IAccountServiceImpl implements IAccountService {
     public Account selectByAccountNo(String accountNo) throws Exception {
         return accountDao.selectByAccountNo(accountNo);
     }
+
+    @Override
+    public Account findById(Integer id) throws Exception {
+        return accountDao.findById(id);
+    }
 }

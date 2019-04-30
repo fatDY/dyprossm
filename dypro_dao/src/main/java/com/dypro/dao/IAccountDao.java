@@ -38,5 +38,14 @@ public interface IAccountDao {
     })
     Account selectByAccountNo(@Param("accountNo") String accountNo) throws Exception;
 
-
+    @Select("select * from account where id=#{id}")
+    @Results({
+            //查询银行关联对象
+            @Result(
+                    property = "bankId",
+                    column = "bankid",
+                    one = @One(select = "com.dypro.dao.IBankDao.selectById")
+            )
+    })
+    Account findById(@Param("id") Integer id)throws Exception;
 }

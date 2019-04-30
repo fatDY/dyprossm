@@ -19,4 +19,12 @@ public interface IAccountService {
      * @throws Exception
      */
     public Account selectByAccountNo(String accountNo) throws Exception;
+
+    /**
+     * 根据ID查询账户
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Account findById(Integer id) throws Exception;
 }

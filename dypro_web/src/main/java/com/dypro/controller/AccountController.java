@@ -5,8 +5,10 @@ import com.dypro.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
@@ -18,7 +20,14 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private IAccountService accountService;
-
+    @RequestMapping("/findiById")
+    public ModelAndView findById(@RequestParam(name = "id",required = true) Integer id) throws Exception {
+        ModelAndView mv=new ModelAndView();
+        Account account=accountService.findById(id);
+        mv.addObject("account",account);
+      //  mv.setView("account-show");
+        return mv;
+    }
     @RequestMapping("/findAll.do")
 /*    @RolesAllowed("ADMIN")*/
     public ModelAndView findAll() {
