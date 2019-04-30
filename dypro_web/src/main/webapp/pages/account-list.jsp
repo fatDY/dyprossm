@@ -266,9 +266,11 @@
 											<%--<td>${account.productDesc }</td>--%>
 											<%--<td class="text-center">${account.productStatusStr }</td>--%>
 											<td class="text-center">
-												<button type="button" class="btn bg-olive btn-xs">订单</button>
-												<button type="button" class="btn bg-olive btn-xs">详情</button>
-												<button type="button" class="btn bg-olive btn-xs">编辑</button>
+												<a href="${pageContext.request.contextPath}/account/findById.do?id=${account.id}" class="btn bg-olive btn-xs">详情</a>
+												<a href="${pageContext.request.contextPath}/account/findUserByUsername.do?username=${user.username}" class="btn bg-olive btn-xs">修改密码</a>
+												<a href="${pageContext.request.contextPath}/account/findUserByIdAndAllRole.do?id=${user.id}" class="btn bg-olive btn-xs">添加角色</a>
+												<a href="${pageContext.request.contextPath}/account/findUserByIdToRole.do?id=${user.id}" class="btn bg-olive btn-xs">删除角色</a>
+												<button class="btn bg-olive btn-xs" value="${account.id}" onclick="delteUser(this.value)">删除用户</button>
 											</td>
 										</tr>
 									</c:forEach>
