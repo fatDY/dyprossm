@@ -3,6 +3,7 @@ package com.dypro.controller;
 import com.dypro.domain.Role;
 import com.dypro.domain.UserInfo;
 import com.dypro.service.IUserService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class UserController {
             e.printStackTrace();
 
             request.setAttribute("Message", "删除角色失败");
-            return "user-role-remove";
+            return "user/user-role-remove";
         }
     }
 
@@ -60,7 +61,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mv.setViewName("user-role-remove");
+        mv.setViewName("user/user-role-remove");
         return mv;
     }
 
@@ -92,7 +93,7 @@ public class UserController {
     public String passwordUpdateById(UserInfo user, HttpServletRequest request) {
         if (user.getPassword() == null || user.getPassword().equals("")) {
             request.setAttribute("Message", "密码不能为空");
-            return "password-update";
+            return "user/password-update";
         }
         try {
             userService.passwordUpdate(user.getId(), user.getPassword());
@@ -101,7 +102,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("Message", "修改密码失败");
-            return "password-update";
+            return "user/password-update";
         }
 
     }
@@ -118,10 +119,17 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         UserInfo userInfo = userService.findUserByUsername(username);
         mv.addObject("user", userInfo);
-        mv.setViewName("password-update");
+        mv.setViewName("user/password-update");
         return mv;
     }
 
+    /**
+     * 为用户添加角色
+     * @param userId
+     * @param roleIds
+     * @param request
+     * @return
+     */
     @RequestMapping("/addRoleToUser.do")
     public String addRoleToUser(@RequestParam(name = "userId") Integer userId, @RequestParam(name = "ids") String[] roleIds, HttpServletRequest request) {
         try {
@@ -131,7 +139,7 @@ public class UserController {
             e.printStackTrace();
 
             request.setAttribute("Message", "添加角色失败");
-            return "user-role-add";
+            return "user/user-role-add";
         }
 
     }
@@ -150,7 +158,7 @@ public class UserController {
             List<Role> otherRoles = userService.findOtherRoles(userid);
             mv.addObject("user", userInfo);
             mv.addObject("roleList", otherRoles);
-            mv.setViewName("user-role-add");
+            mv.setViewName("user/user-role-add");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,7 +177,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         UserInfo userInfos = userService.findById(id);
         mv.addObject("userinfo", userInfos);
-        mv.setViewName("user-show");
+        mv.setViewName("user/user-show");
         return mv;
     }
 
@@ -188,11 +196,11 @@ public class UserController {
                 return "redirect:findAll.do";
             } catch (Exception e) {
                 request.setAttribute("Message", "添加用户失败，请检查用户是否已存在");
-                return "user-add";
+                return "user/user-add";
             }
         } else {
             request.setAttribute("Message", "用户或密码不能为空");
-            return "user-add";
+            return "user/user-add";
         }
     }
 
@@ -203,11 +211,14 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping("findAll.do")
-    public ModelAndView findAll() throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page",required = true,defaultValue = "1")int page,
+                                @RequestParam(name = "size",required = true,defaultValue = "5") int size) throws Exception {
         ModelAndView mv = new ModelAndView();
-        List<UserInfo> userInfos = userService.findAll();
-        mv.addObject("userList", userInfos);
-        mv.setViewName("user-list");
+        List<UserInfo> userInfos = userService.findAll(page,size);
+        PageInfo pageInfo=new PageInfo(userInfos);
+        mv.addObject("pageInfo",pageInfo);
+   //     mv.addObject("userList", userInfos);
+        mv.setViewName("user/user-list");
         return mv;
     }
 }

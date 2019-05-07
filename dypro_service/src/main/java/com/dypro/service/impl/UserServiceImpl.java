@@ -5,12 +5,12 @@ import com.dypro.domain.Role;
 import com.dypro.domain.UserInfo;
 import com.dypro.service.IUserService;
 import com.dypro.utils.BCryptPasswordEncoderUtils;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +49,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserInfo> findAll() throws Exception{
+    public List<UserInfo> findAll(int page, int size) throws Exception{
+        PageHelper.startPage(page,size);
         return userDao.findAll();
     }
 

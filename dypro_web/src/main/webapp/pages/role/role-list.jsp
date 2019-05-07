@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>数据 - AdminLTE2定制版</title>
+    <title>角色管理</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 
@@ -66,11 +66,11 @@
 <div class="wrapper">
 
     <!-- 页面头部 -->
-    <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="../header.jsp"></jsp:include>
     <!-- 页面头部 /-->
 
     <!-- 导航侧栏 -->
-    <jsp:include page="aside.jsp"></jsp:include>
+    <jsp:include page="../aside.jsp"></jsp:include>
     <!-- 导航侧栏 /-->
 
     <!-- 内容区域 -->
@@ -110,23 +110,23 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"
-                                            onclick="location.href='${pageContext.request.contextPath}/pages/role-add.jsp'">
+                                            onclick="location.href='${pageContext.request.contextPath}/pages/role/role-add.jsp'">
                                         <i class="fa fa-file-o"></i> 新建
                                     </button>
 
-                                    <button type="button" class="btn btn-default" title="刷新">
+                                    <button type="button" class="btn btn-default" title="刷新" onclick="location.href='${pageContext.request.contextPath}/role/findAll.do'">
                                         <i class="fa fa-refresh"></i> 刷新
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="box-tools pull-right">
+                       <%-- <div class="box-tools pull-right">
                             <div class="has-feedback">
                                 <input type="text" class="form-control input-sm"
                                        placeholder="搜索"> <span
                                     class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
-                        </div>
+                        </div>--%>
                         <!--工具栏/-->
 
                         <!--数据列表-->
@@ -145,7 +145,7 @@
                             </thead>
                             <tbody>
 
-                            <c:forEach items="${roleList}" var="role">
+                            <c:forEach items="${pageInfo.list}" var="role">
                                 <tr>
                                     <td><input name="ids" type="checkbox"></td>
                                     <td>${role.id }</td>
@@ -189,28 +189,29 @@
                 <!-- .box-footer-->
                 <div class="box-footer">
                     <div class="pull-left">
-                        <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页 <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select> 条
+                        <div class="form-group form-inline" onchange="changePageSize()">
+                            总共${pageInfo.pages}页，共${pageInfo.total}条数据。 每页
+                            <select class="form-control" id="changePageSize">
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select> 条
                         </div>
                     </div>
 
                     <div class="box-tools pull-right">
                         <ul class="pagination">
-                            <li><a href="#" aria-label="Previous">首页</a></li>
-                            <li><a href="#">上一页</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">下一页</a></li>
-                            <li><a href="#" aria-label="Next">尾页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/role/findAll.do?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/role/findAll.do?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}">上一页</a></li>
+                            <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                                <li><a href="${pageContext.request.contextPath}/role/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                            </c:forEach>
+
+                            <li><a href="${pageContext.request.contextPath}/role/findAll.do?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}">下一页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/role/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a></li>
                         </ul>
                     </div>
 
@@ -231,8 +232,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.8
         </div>
-        <strong>Copyright &copy; 2014-2017 <a
-                href="http://www.itcast.cn">研究院研发部</a>.
+        <strong>Copyright &copy; duyu
         </strong> All rights reserved.
     </footer>
     <!-- 底部导航 /-->
@@ -294,13 +294,20 @@
             location.href = "${pageContext.request.contextPath}/role/delRoleById.do?id=" + id;
         }
     }
+    function changePageSize() {
+        //获取下拉框的值
+        var pageSize = $("#changePageSize").val();
 
+        //向服务器发送请求，改变没页显示条数
+        location.href = "${pageContext.request.contextPath}/role/findAll.do?page=1&size="
+            + pageSize;
+    }
     <%
     String Message=(String) request.getAttribute("Message");
     String Message2=request.getParameter("Message");
 if (Message2!=null&&!"".equals(Message2)){
     %>
-    alert("该角色不能被删除");
+    alert("该角色不能被删除或被用户使用中");
     <%
              }
       else if (Message!=null&&!"".equals(Message)){

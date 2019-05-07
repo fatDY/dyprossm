@@ -51,12 +51,12 @@
 						href="${pageContext.request.contextPath}/permission/findAll.do">
 							<i class="fa fa-circle-o"></i> 资源权限管理
 					</a></li>
-					<li id="system-setting">
+					<%--<li id="system-setting">
 						<a
 						href="${pageContext.request.contextPath}/sysLog/findAll.do"> <i
 							class="fa fa-circle-o"></i> 访问日志
 					</a>
-					</li>
+					</li>--%>
 				</ul>
 
 			</li>
@@ -66,15 +66,32 @@
 				</span>
 			</a>
 				<ul class="treeview-menu">
-
 					<li id="system-setting"><a
-						href="${pageContext.request.contextPath}/account/findAll.do">
+							href="${pageContext.request.contextPath}/bank/findAll.do?page=1&size=10"> <i
+							class="fa fa-circle-o"></i> 银行管理
+					</a></li>
+					<li id="system-setting"><a
+						href="${pageContext.request.contextPath}/account/findAll.do?page=1&size=10">
 							<i class="fa fa-circle-o"></i> 账户管理
 					</a></li>
+
+
+				</ul></li>
+			<li class="treeview"><a href="#"> <i class="fa fa-cube"></i>
+				<span>付款管理</span> <span class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
 					<li id="system-setting"><a
-						href="${pageContext.request.contextPath}/orders/findAll.do?page=1&size=4"> <i
-							class="fa fa-circle-o"></i> 订单管理
+							href="${pageContext.request.contextPath}/payment/findAll.do?page=1&size=5"> <i
+							class="fa fa-circle-o"></i> 付款单据
 					</a></li>
+					<li id="system-setting"><a
+							href="${pageContext.request.contextPath}/account/findAll.do">
+						<i class="fa fa-circle-o"></i> 账户管理
+					</a></li>
+
 
 				</ul></li>
 

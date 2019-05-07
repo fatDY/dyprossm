@@ -12,8 +12,10 @@ public interface IUserService extends UserDetailsService {
      *
      * @return
      * @throws Exception
+     * @param page
+     * @param size
      */
-    List<UserInfo> findAll() throws Exception;
+    List<UserInfo> findAll(int page, int size) throws Exception;
 
     /**
      * 保存所有用户信息
@@ -33,7 +35,7 @@ public interface IUserService extends UserDetailsService {
     /**
      * 根据用户ID查询可添加的其他ROles
      *
-     * @param i
+     * @param id
      * @return
      */
     List<Role> findOtherRoles(Integer id);

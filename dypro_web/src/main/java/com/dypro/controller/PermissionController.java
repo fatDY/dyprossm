@@ -2,6 +2,7 @@ package com.dypro.controller;
 
 import com.dypro.domain.Permission;
 import com.dypro.service.IPermissionService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,11 +50,11 @@ public class PermissionController {
     public String roleUpdate (Permission permission,HttpServletRequest request){
         if (permission.getPermissionName() == null ||permission.getPermissionName() .equals("")) {
             request.setAttribute("Message", "权限名不能为空");
-            return "permission-update";
+            return "permission/permission-update";
         }
         if (permission.getUrl()  == null || permission.getUrl().equals("")) {
             request.setAttribute("Message", "权限路径不能为空");
-            return "permission-update";
+            return "permission/permission-update";
         }
         try {
             permissionService.permissionUpdate(permission);
@@ -78,7 +79,7 @@ public class PermissionController {
         //判断是否为user和admin用户
         Permission permission = permissionService.findById(permissionId);
             mv.addObject("permission",permission);
-            mv.setViewName("permission-update");
+            mv.setViewName("permission/permission-update");
             return mv;
     }
 
@@ -87,12 +88,15 @@ public class PermissionController {
      * @return
      */
     @RequestMapping("findAll.do")
-    public ModelAndView findAll() {
+    public ModelAndView findAll(@RequestParam(name = "page",required = true,defaultValue = "1")int page,
+                                @RequestParam(name = "size",required = true,defaultValue = "5") int size) {
         ModelAndView mv = new ModelAndView();
         try {
-            List<Permission> permissionList = permissionService.findAll();
+            List<Permission> permissionList = permissionService.findAll(page,size);
             mv.addObject("permissionList", permissionList);
-            mv.setViewName("permission-list");
+            PageInfo pageInfo=new PageInfo(permissionList);
+            mv.addObject("pageInfo",pageInfo);
+            mv.setViewName("permission/permission-list");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,13 +119,13 @@ public class PermissionController {
                 return "redirect:findAll.do";
             } catch (Exception e) {
                 request.setAttribute("Message","添加用户失败，请检查用户是否已存在");
-                return "permission-add";
+                return "permission/permission-add";
             }
 
         }
         else {
             request.setAttribute("Message","权限资源名或权限路径不能为空");
-            return "permission-add";
+            return "permission/permission-add";
         }
 
 

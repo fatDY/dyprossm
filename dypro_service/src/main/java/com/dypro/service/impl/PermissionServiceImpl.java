@@ -3,6 +3,7 @@ package com.dypro.service.impl;
 import com.dypro.dao.IPermissionDao;
 import com.dypro.domain.Permission;
 import com.dypro.service.IPermissionService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,8 @@ public class PermissionServiceImpl implements IPermissionService {
     @Autowired
     private IPermissionDao permissionDao;
     @Override
-    public List<Permission> findAll() throws Exception {
-
+    public List<Permission> findAll(int page, int size) throws Exception {
+        PageHelper.startPage(page,size);
         return  permissionDao.findAll();
     }
 

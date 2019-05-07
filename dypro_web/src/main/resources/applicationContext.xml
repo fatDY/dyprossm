@@ -32,9 +32,9 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <!-- 传入PageHelper的插件 -->
-        <!--<property name="plugins">
+        <property name="plugins">
             <array>
-                &lt;!&ndash; 传入插件的对象 &ndash;&gt;
+                <!-- 传入插件的对象 -->
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <props>
@@ -44,7 +44,7 @@
                     </property>
                 </bean>
             </array>
-        </property>-->
+        </property>
     </bean>
     <!-- 扫描dao接口 -->
     <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

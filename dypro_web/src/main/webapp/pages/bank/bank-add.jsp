@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -67,10 +68,10 @@
 	<div class="wrapper">
 
 		<!-- 页面头部 -->
-		<jsp:include page="header.jsp"></jsp:include>
+		<jsp:include page="../header.jsp"></jsp:include>
 		<!-- 页面头部 /-->
 		<!-- 导航侧栏 -->
-		<jsp:include page="aside.jsp"></jsp:include>
+		<jsp:include page="../aside.jsp"></jsp:include>
 		<!-- 导航侧栏 /-->
 
 		<!-- 内容区域 -->
@@ -79,59 +80,94 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				用户管理 <small>用户表单</small>
+				账户管理 <small>添加银行信息</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
 				<li><a
-					href="${pageContext.request.contextPath}/user/findAll.do">用户管理</a></li>
-				<li class="active">用户表单</li>
+					href="${pageContext.request.contextPath}/role/findAll.do">银行账户管理</a></li>
+				<li class="active">添加银行账户信息</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
 
-			<form action="${pageContext.request.contextPath}/user/save.do"
-				method="post" onsubmit="check()">
+			<form
+				action="${pageContext.request.contextPath}/account/backToAccountAdd.do"
+				method="post">
 				<!-- 正文区域 -->
-				<section class="content"> <!--产品信息-->
+				<section class="content">
+				
+					<table id="dataList"
+							class="table table-bordered table-striped table-hover dataTable">
+							<thead>
+								<tr>
+									<th class="" style="padding-right: 0px">
+								</th>
+									<th class="sorting_asc">ID</th>
+									<th class="sorting">银行名称</th>
+									<th class="sorting_asc sorting_asc_disabled">联行号</th>
+									<th class="sorting_desc sorting_desc_disabled">省份</th>
+									<th class="sorting">城市</th>
+								</tr>
+							</thead>
+							<tbody>
+							<div id="checkboxDiv">
+								<c:forEach items="${pageInfo.list}" var="bank">
+									<tr>
+										<td>
+										
+										<input name="ids" type="checkbox" value="${bank.id}">
+										</td>
+										<td>${bank.id}</td>
+										<td>${bank.bankName }</td>
+										<td>${bank.uniteCode}</td>
+										<td>${bank.bankProvince}</td>
+										<td>${bank.bankCity}</td>
+									</tr>
+								</c:forEach>
+							</div>
+							</tbody>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">用户信息</div>
-					<div class="row data-type">
-
-						<div class="col-md-4 title">用户名称</div>
-						<div class="col-md-4 title">密码</div>
-						<div class="col-md-4 title">用户状态</div>
-						<div class="col-md-4 data">
-							<input type="text" class="form-control" name="username" id="username"
-								placeholder="用户名称" value="">
-						</div>
-
-						<div class="col-md-4 data">
-							<input type="password" class="form-control" name="password" id="password"
-								placeholder="密码" value="">
-						</div>
-
-						<div class="col-md-4 data">
-							<select class="form-control select2" style="width: 100%"
-								name="status">
-								<option value="0" selected="selected">关闭</option>
-								<option value="1">开启</option>
-							</select>
-						</div>
-
-					</div>
-				</div>
+						</table>
 				<!--订单信息/--> <!--工具栏-->
 				<div class="box-tools text-center">
 					<button type="submit" class="btn bg-maroon">保存</button>
 					<button type="button" class="btn bg-default"
-						onclick="location.href='${pageContext.request.contextPath}/user/findAll.do'">返回</button>
+						onclick="location.href='${pageContext.request.contextPath}/pages/account/account-add.jsp'">返回</button>
 				</div>
 				<!--工具栏/--> </section>
 				<!-- 正文区域 /-->
 			</form>
+			<div class="box-footer">
+				<div class="pull-left">
+					<div class="form-group form-inline" onchange="changePageSize()">
+						总共${pageInfo.pages}页，共${pageInfo.total}条数据。 每页
+						<select class="form-control" id="changePageSize">
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+							<option>8</option>
+							<option>9</option>
+							<option>10</option>
+						</select> 条
+					</div>
+				</div>
+
+				<div class="box-tools pull-right">
+					<ul class="pagination">
+						<li><a href="${pageContext.request.contextPath}/bank/findBankToAccount.do?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a></li>
+						<li><a href="${pageContext.request.contextPath}/bank/findBankToAccount.do?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}">上一页</a></li>
+						<c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+							<li><a href="${pageContext.request.contextPath}/bank/findBankToAccount.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+						</c:forEach>
+
+						<li><a href="${pageContext.request.contextPath}/bank/findBankToAccount.do?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}">下一页</a></li>
+						<li><a href="${pageContext.request.contextPath}/bank/findBankToAccount.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a></li>
+					</ul>
+				</div>
+
+			</div>
 		</div>
 		<!-- 内容区域 /-->
 
@@ -140,8 +176,7 @@
 		<div class="pull-right hidden-xs">
 			<b>Version</b> 1.0.8
 		</div>
-		<strong>Copyright &copy; 2014-2017 <a
-			href="http://www.itcast.cn">研究院研发部</a>.
+		<strong>Copyright &copy; duyu.
 		</strong> All rights reserved. </footer>
 		<!-- 底部导航 /-->
 
@@ -235,10 +270,18 @@
 		src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 	<script>
+        function changePageSize() {
+            //获取下拉框的值
+            var pageSize = $("#changePageSize").val();
+
+            //向服务器发送请求，改变没页显示条数
+            location.href = "${pageContext.request.contextPath}/bank/findBankToAccount.do?page=1&size="
+                + pageSize;
+        }
         <%
-         String Message=(String) request.getAttribute("Message");
-         if (Message!=null&&!"".equals(Message)){
-             %>
+      String Message=(String) request.getAttribute("Message");
+      if (Message!=null&&!"".equals(Message)){
+          %>
         alert("<%=Message %>");<%
 		 }
 		%>
@@ -249,6 +292,16 @@
 			// WYSIHTML5编辑器
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
+			});
+			// 全选操作 
+			$("#selall").click(function() {
+				var clicks = $(this).is(':checked');
+				if (!clicks) {
+					$("#dataList td input[type='checkbox']").iCheck("uncheck");
+				} else {
+					$("#dataList td input[type='checkbox']").iCheck("check");
+				}
+				$(this).data("clicks", !clicks);
 			});
 		});
 

@@ -13,8 +13,10 @@ public interface IPermissionService {
      * 查询所有权限信息
      * @return
      * @throws Exception
+     * @param page
+     * @param size
      */
-    List<Permission> findAll() throws Exception;
+    List<Permission> findAll(int page, int size) throws Exception;
 
     /**
      * 保存权限资源信息

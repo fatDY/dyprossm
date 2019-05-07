@@ -3,7 +3,7 @@ package com.dypro.controller;
 import com.dypro.domain.Permission;
 import com.dypro.domain.Role;
 import com.dypro.service.IRoleService;
-import org.apache.ibatis.annotations.Param;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,11 @@ public class RoleController {
             if (roleInfo.getPermissions() != null && roleInfo.getPermissions().size() > 0) {
                 roleService.delRoleToPermission(roleid);
             }
-            roleService.delRoleById(roleid);
+            try {
+                roleService.delRoleById(roleid);
+            } catch (Exception e) {
+                return "redirect:findAll.do?Message=2";
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,8 +62,8 @@ public class RoleController {
             return "redirect:findRoleByIdToPermission.do?id=" + roleId;
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("Message", "移除角色失败");
-            return "user-role-remove";
+            request.setAttribute("Message", "移除权限失败");
+            return "role/role-permission-remove";
         }
     }
     /**
@@ -78,7 +82,7 @@ public class RoleController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mv.setViewName("role-permission-remove");
+        mv.setViewName("role/role-permission-remove");
         return mv;
     }
 
@@ -92,11 +96,11 @@ public class RoleController {
     public String roleUpdate (Role role,HttpServletRequest request){
         if (role.getRoleName() == null || role.getRoleName().equals("")) {
             request.setAttribute("Message", "角色名不能为空");
-            return "role-update";
+            return "role/role-update";
         }
         if (role.getRoleDesc() == null || role.getRoleDesc().equals("")) {
             request.setAttribute("Message", "角色描述不能为空");
-            return "role-update";
+            return "role/role-update";
         }
         try {
             roleService.roleUpdate(role);
@@ -105,7 +109,7 @@ public class RoleController {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("Message", "修改角色失败");
-            return "role-update";
+            return "role/role-update";
         }
     }
     /**
@@ -120,11 +124,11 @@ public class RoleController {
         Role role = roleService.findById(roleId);
         if (role.getRoleName().equals("ADMIN")||role.getRoleName().equals("USER")){
             mv.addObject("Message","ADMIN用户或USER用户无法被修改");
-            mv.setViewName("role-list");
+            mv.setViewName("role/role-list");
             return mv;
         }
         else {mv.addObject("role",role);
-        mv.setViewName("role-update");
+        mv.setViewName("role/role-update");
         return mv;}
     }
     /**
@@ -138,7 +142,7 @@ public class RoleController {
         ModelAndView mv = new ModelAndView();
         Role roleInfo=roleService.findById(id);
         mv.addObject("roleinfo", roleInfo);
-        mv.setViewName("role-show");
+        mv.setViewName("role/role-show");
         return mv;
     }
 
@@ -154,7 +158,7 @@ public class RoleController {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("Message", "添加角色失败");
-            return "role-permission-add";
+            return "role/role-permission-add";
         }
 
     }
@@ -175,7 +179,7 @@ public class RoleController {
             List<Permission> permissionList = roleService.findOtherPermission(roleId);
             mv.addObject("role", role);
             mv.addObject("permissionList", permissionList);
-            mv.setViewName("role-permission-add");
+            mv.setViewName("role/role-permission-add");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,12 +202,12 @@ public class RoleController {
                 return "redirect:findAll.do";
             } catch (Exception e) {
                 request.setAttribute("Message", "添加角色失败，请检查角色是否已存在");
-                return "role-add";
+                return "role/role-add";
             }
 
         } else {
             request.setAttribute("Message", "角色名或角色描述不能为空");
-            return "role-add";
+            return "role/role-add";
         }
     }
 
@@ -213,12 +217,15 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/findAll.do")
-    public ModelAndView findAll() {
+    public ModelAndView findAll(@RequestParam(name = "page",required = true,defaultValue = "1")int page,
+                                @RequestParam(name = "size",required = true,defaultValue = "5") int size) {
         ModelAndView mv = new ModelAndView();
         try {
-            List<Role> roleList = roleService.findAll();
-            mv.addObject("roleList", roleList);
-            mv.setViewName("role-list");
+            List<Role> roleList = roleService.findAll(page,size);
+            PageInfo pageInfo=new PageInfo(roleList);
+            mv.addObject("pageInfo",pageInfo);
+           // mv.addObject("roleList", roleList);
+            mv.setViewName("role/role-list");
         } catch (Exception e) {
             e.printStackTrace();
         }

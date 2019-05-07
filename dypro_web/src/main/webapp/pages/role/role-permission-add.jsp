@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <!-- 页面meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>数据 - AdminLTE2定制版</title>
+<title>添加权限</title>
 <meta name="description" content="AdminLTE2定制版">
 <meta name="keywords" content="AdminLTE2定制版">
 
@@ -67,10 +68,10 @@
 	<div class="wrapper">
 
 		<!-- 页面头部 -->
-		<jsp:include page="header.jsp"></jsp:include>
+		<jsp:include page="../header.jsp"></jsp:include>
 		<!-- 页面头部 /-->
 		<!-- 导航侧栏 -->
-		<jsp:include page="aside.jsp"></jsp:include>
+		<jsp:include page="../aside.jsp"></jsp:include>
 		<!-- 导航侧栏 /-->
 
 		<!-- 内容区域 -->
@@ -79,45 +80,60 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				用户管理 <small>用户表单-修改密码</small>
+				角色管理 <small>添加权限表单</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
-				<li class="active">用户表单</li>
+				<li><a
+					href="${pageContext.request.contextPath}/role/findAll.do">角色管理</a></li>
+				<li class="active">添加权限表单</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
 
-			<form action="${pageContext.request.contextPath}/user/passwordUpdate.do"
-				method="post" onsubmit="check()">
+			<form
+				action="${pageContext.request.contextPath}/role/addPemissionToRole.do"
+				method="post">
 				<!-- 正文区域 -->
-				<input type="hidden" name="id" value="${user.id}">
-				<section class="content"> <!--产品信息-->
+				<section class="content"> 
+				
+				<input type="hidden" name="roleId" value="${role.id}">
+				
+					<table id="dataList"
+							class="table table-bordered table-striped table-hover dataTable">
+							<thead>
+								<tr>
+									<th class="" style="padding-right: 0px">
+									<input id="selall" 
+										type="checkbox" class="icheckbox_square-blue"></th>
+									<th class="sorting_asc">ID</th>
+									<th class="sorting">权限资源名称</th>
+									<th class="sorting">URL</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${permissionList}" var="permission">
+									<tr>
+										<td>
+										
+										<input name="ids" type="checkbox" value="${permission.id}">
+										
+										</td>
+										<td>${permission.id}</td>
+										<td>${permission.permissionName }</td>
+										<td>${permission.url}</td>
+										
+									</tr>
+								</c:forEach>
+							</tbody>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">用户信息</div>
-					<div class="row data-type">
-
-						<div class="col-md-6 title">用户名称</div>
-						<div class="col-md-6 title">密码</div>
-						<div class="col-md-6 data">
-							<input type="text" class="form-control" name="username" id="username"
-								placeholder="用户名称" value="${user.username}" readonly>
-						</div>
-
-						<div class="col-md-6 data">
-							<input type="password" class="form-control" name="password" id="password"
-								placeholder="密码" value="">
-						</div>
-
-					</div>
-				</div>
+						</table>
 				<!--订单信息/--> <!--工具栏-->
 				<div class="box-tools text-center">
 					<button type="submit" class="btn bg-maroon">保存</button>
-					<a href="${pageContext.request.contextPath}/index.jsp" class="btn">
-					返回</a>
+					<button type="button" class="btn bg-default"
+						onclick="location.href='${pageContext.request.contextPath}/role/findAll.do'">返回</button>
 				</div>
 				<!--工具栏/--> </section>
 				<!-- 正文区域 /-->
@@ -130,8 +146,7 @@
 		<div class="pull-right hidden-xs">
 			<b>Version</b> 1.0.8
 		</div>
-		<strong>Copyright &copy; 2014-2017 <a
-			href="http://www.itcast.cn">研究院研发部</a>.
+		<strong>Copyright &copy; duyu.
 		</strong> All rights reserved. </footer>
 		<!-- 底部导航 /-->
 
@@ -226,9 +241,9 @@
 
 	<script>
         <%
-         String Message=(String) request.getAttribute("Message");
-         if (Message!=null&&!"".equals(Message)){
-             %>
+      String Message=(String) request.getAttribute("Message");
+      if (Message!=null&&!"".equals(Message)){
+          %>
         alert("<%=Message %>");<%
 		 }
 		%>
@@ -239,6 +254,16 @@
 			// WYSIHTML5编辑器
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
+			});
+			// 全选操作 
+			$("#selall").click(function() {
+				var clicks = $(this).is(':checked');
+				if (!clicks) {
+					$("#dataList td input[type='checkbox']").iCheck("uncheck");
+				} else {
+					$("#dataList td input[type='checkbox']").iCheck("check");
+				}
+				$(this).data("clicks", !clicks);
 			});
 		});
 

@@ -18,10 +18,25 @@ public interface IBankService {
     /**
      * 查询银行所有信息
      * @return
+     * @param page
+     * @param size
      */
-    List<Bank> findAll() throws Exception;
+    List<Bank> findAll(int page, int size) throws Exception;
     /**
      * 插入银行信息
      */
     void insertBank(Bank bank) throws Exception;
+
+    /**
+     * 根据联行号查找银行
+     * @param uniteCode
+     * @return
+     */
+    Bank findByUniteCode(String uniteCode) throws Exception;
+
+    /**
+     * 更新银行信息
+     * @param bank
+     */
+    void update(Bank bank) throws Exception;
 }

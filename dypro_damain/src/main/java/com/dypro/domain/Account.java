@@ -11,6 +11,15 @@ public class Account {
     private String accountPurposeId; //账户用途
     private Bank bankId; //账户所属银行ID
     private String accountType; //账户性质
+    private String status;//账户状态
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getId() {
         return id;

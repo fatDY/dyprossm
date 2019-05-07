@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <!-- 页面meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>数据 - AdminLTE2定制版</title>
+<title>权限资源添加</title>
 <meta name="description" content="AdminLTE2定制版">
 <meta name="keywords" content="AdminLTE2定制版">
 
@@ -62,15 +63,15 @@
 	href="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini">
+	<body class="hold-transition skin-purple sidebar-mini">
 
 	<div class="wrapper">
 
 		<!-- 页面头部 -->
-		<jsp:include page="header.jsp"></jsp:include>
+		<jsp:include page="../header.jsp"></jsp:include>
 		<!-- 页面头部 /-->
 		<!-- 导航侧栏 -->
-		<jsp:include page="aside.jsp"></jsp:include>
+		<jsp:include page="../aside.jsp"></jsp:include>
 		<!-- 导航侧栏 /-->
 
 		<!-- 内容区域 -->
@@ -79,44 +80,45 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				用户管理 <small>用户表单-修改密码</small>
+				资源权限管理 <small>资源权限表单</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
-				<li class="active">角色表单</li>
+				<li><a href="${pageContext.request.contextPath}/permission/findAll.do">权限管理</a></li>
+				<li class="active">权限资源表单</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
 
-			<form action="${pageContext.request.contextPath}/role/roleUpdate.do"
-				method="post" onsubmit="check()">
+			<form action="${pageContext.request.contextPath}/permission/save.do"
+				method="post">
 				<!-- 正文区域 -->
-				<input type="hidden" name="id" value="${role.id}">
 				<section class="content"> <!--产品信息-->
 
 				<div class="panel panel-default">
-					<div class="panel-heading">角色信息</div>
+					<div class="panel-heading">权限资源信息</div>
 					<div class="row data-type">
 
-						<div class="col-md-6 title">角色名称</div>
-						<div class="col-md-6 title">描述</div>
-						<div class="col-md-6 data">
-							<input type="text" class="form-control" name="roleName" id="roleName"
-							 value="${role.roleName}">
+						<div class="col-md-2 title">权限名称</div>
+						<div class="col-md-4 data">
+							<input type="text" class="form-control" name="permissionName"
+								placeholder="权限名称" value="">
 						</div>
+						<div class="col-md-2 title">URL</div>
+						<div class="col-md-4 data">
+							<input type="text" class="form-control" name="url"
+								placeholder="URL" value="">
+						</div>
+										
 
-						<div class="col-md-6 data">
-							<input type="text" class="form-control" name="roleDesc" id="roleDesc"
-								 value="${role.roleDesc}">
-						</div>
 					</div>
 				</div>
 				<!--订单信息/--> <!--工具栏-->
 				<div class="box-tools text-center">
 					<button type="submit" class="btn bg-maroon">保存</button>
-					<a href="${pageContext.request.contextPath}/role/findAll.do" class="btn">
-					返回</a>
+					<button type="button" class="btn bg-default"
+						onclick="location.href='${pageContext.request.contextPath}/permission/findAll.do'">返回</button>
 				</div>
 				<!--工具栏/--> </section>
 				<!-- 正文区域 /-->
@@ -129,8 +131,7 @@
 		<div class="pull-right hidden-xs">
 			<b>Version</b> 1.0.8
 		</div>
-		<strong>Copyright &copy; 2014-2017 <a
-			href="http://www.itcast.cn">研究院研发部</a>.
+		<strong>Copyright &copy; duyu.
 		</strong> All rights reserved. </footer>
 		<!-- 底部导航 /-->
 
@@ -224,11 +225,11 @@
 		src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 	<script>
-        <%
-         String Message=(String) request.getAttribute("Message");
-         if (Message!=null&&!"".equals(Message)){
-             %>
-        alert("<%=Message %>");<%
+		<%
+		 String Message=(String) request.getAttribute("Message");
+		 if (Message!=null&&!"".equals(Message)){
+		     %>
+		alert("<%=Message %>");<%
 		 }
 		%>
 		$(document).ready(function() {
@@ -249,8 +250,9 @@
 				liObj.addClass("active");
 			}
 		}
-	</script>
 
+	</script>
+	
 
 </body>
 

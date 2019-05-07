@@ -19,6 +19,11 @@
           <element id="archive" name="dypro_utils-1.0-SNAPSHOT.jar">
             <element id="module-output" name="dypro_utils" />
           </element>
+          <element id="library" level="project" name="Maven: org.junit.jupiter:junit-jupiter-api:5.5.0-M1" />
+          <element id="library" level="project" name="Maven: org.apiguardian:apiguardian-api:1.0.0" />
+          <element id="library" level="project" name="Maven: org.opentest4j:opentest4j:1.1.1" />
+          <element id="library" level="project" name="Maven: org.junit.platform:junit-platform-commons:1.5.0-M1" />
+          <element id="library" level="project" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.6.8" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.0.2.RELEASE" />
@@ -49,6 +54,9 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.0.1.RELEASE" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.6" />
           <element id="library" level="project" name="Maven: javax.annotation:jsr250-api:1.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
