@@ -27,7 +27,7 @@ public interface IRoleDao {
     })
     List<Role> findRoleByUserId(@Param("userId") Integer userId) throws Exception;
 
-    @Select("select * from role")
+    @Select("select * from role order by id desc")
     List<Role> findAll() throws Exception;
 
     @Insert("insert into role(roleName,roleDesc) values(#{roleName},#{roleDesc})")

@@ -13,7 +13,7 @@ public interface IBankDao {
      * 根据id查询银行信息
      * @return
      */
-    @Select("select * from bank where id = #{id}")
+    @Select("select * from bank where id = #{id} order by id desc")
     Bank selectById(@Param("id") Integer id) throws Exception;
 
     /**

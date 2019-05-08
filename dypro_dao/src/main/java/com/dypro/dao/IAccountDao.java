@@ -12,7 +12,7 @@ public interface IAccountDao {
      * @return
      * @throws Exception
      */
-    @Select("select * from account where status='1'")
+    @Select("select * from account where status='1'order by id desc" )
     @Results({
             //查询银行关联对象
             @Result(

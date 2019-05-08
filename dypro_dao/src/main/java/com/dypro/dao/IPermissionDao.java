@@ -23,7 +23,7 @@ public interface IPermissionDao {
      *
      * @return
      */
-    @Select("select * from permission")
+    @Select("select * from permission order by id desc")
     List<Permission> findAll() throws Exception;
 
     @Insert("insert into permission(permissionName,url) values(#{permissionName},#{url})")

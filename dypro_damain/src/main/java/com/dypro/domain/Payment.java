@@ -8,8 +8,42 @@ public class Payment {
     private String paymentDate; //付款日期
     private Account paymentAccountId; //付款账户
     private BigDecimal paymentAmount; //付款金额
-    private Bank bankId; //账户所属银行ID
     private String recName; //收款账户名
+    private String statement;//单据状态
+    private String recAccount;//收款账户号
+    private String recBankName;//收款银行名
+    private String recProvince;//收款省份
+    private String reCity; //收款账户所在城市
+    private String recUniteCode;//收款银行联行号
+    private String memo;//备注
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getStatement() {
+        if ("0".equals(statement)){
+            statement="保存";
+        }
+        if ("1".equals(statement)){
+            statement="提交中";
+        }
+        if ("2".equals(statement)){
+            statement="指令发送中";
+        }
+        if (!"保存".equals(statement)&&!"提交中".equals(statement)&&!"指令发送中".equals(statement)){
+            statement="未知";
+        }
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
 
     public String getRecName() {
         return recName;
@@ -18,13 +52,6 @@ public class Payment {
     public void setRecName(String recName) {
         this.recName = recName;
     }
-
-    private String recAccount;//收款账户号
-    private String recBankName;//收款银行名
-    private String recProvince;//收款省份
-    private String reCity; //收款账户所在城市
-    private String recUniteCode;//收款银行联行号
-
     public int getId() {
         return id;
     }
@@ -63,14 +90,6 @@ public class Payment {
 
     public void setPaymentAmount(BigDecimal paymentAmount) {
         this.paymentAmount = paymentAmount;
-    }
-
-    public Bank getBankId() {
-        return bankId;
-    }
-
-    public void setBankId(Bank bankId) {
-        this.bankId = bankId;
     }
 
     public String getRecAccount() {
@@ -115,17 +134,18 @@ public class Payment {
 
     @Override
     public String toString() {
-        return "payment{" +
+        return "Payment{" +
                 "id=" + id +
                 ", paymentId='" + paymentId + '\'' +
                 ", paymentDate='" + paymentDate + '\'' +
                 ", paymentAccountId=" + paymentAccountId +
                 ", paymentAmount=" + paymentAmount +
-                ", bankId=" + bankId +
+                ", recName='" + recName + '\'' +
+                ", statement='" + statement + '\'' +
                 ", recAccount='" + recAccount + '\'' +
                 ", recBankName='" + recBankName + '\'' +
                 ", recProvince='" + recProvince + '\'' +
-                ", recity='" + reCity + '\'' +
+                ", reCity='" + reCity + '\'' +
                 ", recUniteCode='" + recUniteCode + '\'' +
                 '}';
     }

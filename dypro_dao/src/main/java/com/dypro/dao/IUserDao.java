@@ -29,7 +29,7 @@ public interface IUserDao {
     )
     UserInfo findByUserName(@Param("username") String username) throws Exception;
 
-    @Select("select * from users")
+    @Select("select * from users order by id desc")
     List<UserInfo> findAll() throws Exception;
 
     @Insert("insert into users(username,password,status) value(#{username},#{password},#{status})")

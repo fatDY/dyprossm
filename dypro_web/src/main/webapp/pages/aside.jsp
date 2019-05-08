@@ -85,12 +85,18 @@
 				<ul class="treeview-menu">
 					<li id="system-setting"><a
 							href="${pageContext.request.contextPath}/payment/findAll.do?page=1&size=5"> <i
-							class="fa fa-circle-o"></i> 付款单据
+							class="fa fa-circle-o"></i> 付款单据管理
 					</a></li>
 					<li id="system-setting"><a
-							href="${pageContext.request.contextPath}/account/findAll.do">
-						<i class="fa fa-circle-o"></i> 账户管理
+							href="${pageContext.request.contextPath}/payment/findAllConfirm.do?page=1&size=5"> <i
+							class="fa fa-circle-o"></i> 付款单据复核
 					</a></li>
+					<%--<li id="system-setting"><a
+							href="${pageContext.request.contextPath}/payment/findReadyPayment.do">
+						<i class="fa fa-circle-o"></i> 付款单据管理
+					</a></li>--%>
+
+
 
 
 				</ul></li>

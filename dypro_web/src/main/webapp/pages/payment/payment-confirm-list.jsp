@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <title>付款单据提交</title>
+    <title>付款单据复核</title>
     <meta name="description" content="AdminLTE2定制版">
     <meta name="keywords" content="AdminLTE2定制版">
 
@@ -161,12 +161,12 @@
         <section class="content-header">
             <h1>
                 付款管理
-                <small>数据列表</small>
+                <small>付款单据复核</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="#">付款单据管理</a></li>
-                <li class="active">付款单据列表</li>
+                <li><a href="#">付款单据复核</a></li>
+                <li class="active">付款单据复核</li>
             </ol>
         </section>
         <!-- 内容头部 /-->
@@ -189,61 +189,70 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <%--<button type="button" class="btn btn-default" title="删除">
+                                    <%--<button type="button" class="btn btn-default" title="新建" onclick="location.href='${pageContext.request.contextPath}/payment/paymentAddView.do'">
+                                        <i class="fa fa-check"></i> 新建
+                                  </button>
+                                    <button type="button" class="btn btn-default" title="删除" onclick="javascript:deletePayment()">
                                         <i class="fa fa-trash-o"></i> 删除
                                     </button>
-                                    <button type="button" class="btn btn-default" title="开启">
-                                        <i class="fa fa-check"></i> 开启
-                                    </button>
-                                    <button type="button" class="btn btn-default" title="屏蔽">
-                                        <i class="fa fa-ban"></i> 屏蔽
+                                    <button type="button" class="btn btn-default" title="修改" onclick="javascript:updatePayment()">
+                                        <i class="fa fa-ban"></i> 修改
                                     </button>--%>
-                                    <button type="button" class="btn btn-default" title="刷新" onclick="location.href='${pageContext.request.contextPath}/payment/findAll.do'">
+                                    <button type="button" class="btn btn-default" title="提交" onclick="confirmPayment()">
+                                        <i class="fa fa-check"></i> 生成银行指令
+                                    </button>
+                                        <button type="button" class="btn btn-default" title="修改" onclick="updateBackPayment()">
+                                        <i class="fa fa-ban"></i> 退回
+                                    </button>
+                                    <button type="button" class="btn btn-default" title="刷新"
+                                            onclick="location.href='${pageContext.request.contextPath}/payment/findAllConfirm.do'">
                                         <i class="fa fa-refresh"></i> 刷新
                                     </button>
                                 </div>
                             </div>
                         </div>
-                       <%-- <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input id="searchNo" type="text" class="form-control input-sm"
-                                       placeholder="搜索账户号">
-                                <a class="glyphicon glyphicon-search form-control-feedback"
-                                   href="javascript:search();"></a>
-                            </div>
-                        </div>--%>
+                        <%-- <div class="box-tools pull-right">
+                             <div class="has-feedback">
+                                 <input id="searchNo" type="text" class="form-control input-sm"
+                                        placeholder="搜索账户号">
+                                 <a class="glyphicon glyphicon-search form-control-feedback"
+                                    href="javascript:search();"></a>
+                             </div>
+                         </div>--%>
                         <!--工具栏/-->
 
                         <!--数据列表-->
+                        <form method="post" id="form">
                         <table id="dataList"
                                class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
-
+                                <th class="sorting_desc"></th>
                                 <th class="sorting_desc">付款单号</th>
                                 <th class="sorting_asc sorting_asc_disabled">付款账户号</th>
                                 <th class="sorting_desc sorting_desc_disabled">付款账户名</th>
                                 <th class="sorting">付款金额</th>
                                 <th class="text-center sorting">收款账户名</th>
                                 <th class="text-center sorting">收款账户号</th>
-                                <%--		<th class="sorting">账户银行联行号</th>
-                                        <th class="text-center sorting">账户银行开户地</th>--%>
+                                <th class="sorting">付款单据状态</th>
+                                <%--    <th class="text-center sorting">账户银行开户地</th>--%>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
 
 
-                            <c:forEach items="${paymentList}" var="payment">
+                            <c:forEach items="${pageInfo.list}" var="payment">
 
                                 <tr>
-                                    <input type="hidden" value="${payment.id }">
+                                    <td><input id="ids" name="ids" type="checkbox" value="${payment.id}"></td>
                                     <td>${payment.paymentId}</td>
                                     <td>${payment.paymentAccountId.accountNo}</td>
                                     <td>${payment.paymentAccountId.accountName}</td>
                                     <td>${payment.paymentAmount}</td>
                                     <td>${payment.recName}</td>
                                     <td>${payment.recAccount}</td>
+                                    <td>${payment.statement}</td>
                                         <%--	<td>${account.bankId.uniteCode}</td>
                                             <td>${account.bankId.location}</td>--%>
 
@@ -254,180 +263,254 @@
                                             <%--<a href="${pageContext.request.contextPath}/account/findById.do?id=${account.id}" class="btn bg-olive btn-xs">详情</a>--%>
                                         <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
                                                 data-target="#myModal"
-                                            onclick="findById(this.value)"  value="${account.id}">
-                                        详情
+                                                onclick="findById(this.value)" value="${payment.id}">
+                                            详情
                                         </button>
                                     </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
-                          <%--  账户详情模块化窗口--%>
-                            <div id="myModal" class="modal modal-primary" role="dialog">
+                            <%--  付款单据详情模块化窗口modal-primary--%>
+                            <div id="myModal" class="modal" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">账户详情</h4>
+                                            <h4 class="modal-title">付款单据详情</h4>
                                         </div>
                                         <div class="modal-body">
-
                                             <div class="box-body">
-                                                <div class="form-horizontal">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">付款信息</div>
                                                     <div class="row data-type">
 
-                                                        <div class="form-group">
-                                                            <label for="accountName"
-                                                                   class="col-sm-2 control-label">账户名称</label>
-                                                            <div class="col-sm-4  " id="accountName"  style="padding-top: 7px">
-
-                                                            </div>
-                                                            <label for="accountNo"
-                                                                   class="col-sm-2 control-label">账户号码</label>
-                                                            <div class="col-sm-4 " id="accountNo" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="accountPurposeId"
-                                                                   class="col-sm-2 control-label">账户性质</label>
-                                                            <div class="col-sm-4 " id="accountPurposeId" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
-                                                            <label for="accountType"
-                                                                   class="col-sm-2 control-label">账户类别</label>
-                                                            <div class="col-sm-4 " id="accountType" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="bankName"
-                                                                   class="col-sm-2 control-label">账户银行</label>
-                                                            <div class="col-sm-4 " id="bankName" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="bankProvince"
-                                                                   class="col-sm-2 control-label">银行开户省</label>
-                                                            <div class="col-sm-4 " id="bankProvince" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
-                                                            <label for="bankCity"
-                                                                   class="col-sm-2 control-label">市</label>
-                                                            <div class="col-sm-4 " id="bankCity" style="padding-top: 7px" >
-                                                                xxxxxx
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="uniteCode"
-                                                                   class="col-sm-2 control-label">联行号</label>
-                                                            <div class="col-sm-4 " id="uniteCode" style="padding-top: 7px">
-                                                                xxxxxx
-                                                            </div>
+                                                        <div class="col-md-2 title">单据编号</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" id="paymentId" class="form-control"
+                                                                   placeholder="单据编号" value=" " readonly>
                                                         </div>
 
+                                                        <div class="col-md-2 title">单据时间</div>
+                                                        <div class="col-md-4 data">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control pull-right"
+                                                                       id="paymentDate" value="" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 title">付款帐户名</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="accountName"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">付款账号</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="accountNo"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">金额</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="paymentAmount"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">币种</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="currencyId"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">账户用途</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control"
+                                                                   id="accountPurposeId" value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">账户性质</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="accountType"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行名称</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="bankName"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行联行号</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="uniteCode"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行所属省</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="bankProvince"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行所属市</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="bankCity"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <%-- <div class="col-md-2 title rowHeight2x">其他信息</div>
+                                                         <div class="col-md-10 data rowHeight2x">
+                                                             <textarea class="form-control" rows="3" placeholder="其他信息"></textarea>
+                                                         </div>--%>
 
                                                     </div>
-
-
                                                 </div>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">收款信息</div>
+                                                    <div class="row data-type">
+
+                                                        <div class="col-md-2 title">收款帐户名</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="recName"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">收款账号</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="recAccount"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">收款银行</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="recBankName"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">收款联行号</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="recUniteCode"
+                                                                   value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行所属省</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control"
+                                                                   id="recProvince" value="" readonly>
+                                                        </div>
+                                                        <div class="col-md-2 title">银行所属市</div>
+                                                        <div class="col-md-4 data">
+                                                            <input type="text" class="form-control" id="reCity"
+                                                                   value="" readonly>
+                                                        </div>
+
+                                                         <div class="col-md-2 title rowHeight2x">其他信息</div>
+                                                         <div class="col-md-10 data rowHeight2x">
+                                                             <textarea class="form-control" rows="3" id="memo" style="resize:none" readonly></textarea>
+                                                         </div>
+
+                                                    </div>
+                                                </div>
+
+
                                             </div>
+                                        </div>
 
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline" data-dismiss="modal">关闭
-                                            </button>
-                                            <%--<button type="button" class="btn btn-outline" data-dismiss="modal">保存</button>--%>
-                                        </div>
                                     </div>
-                                    <!-- /.modal-content -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline" data-dismiss="modal">关闭
+                                        </button>
+                                        <%--<button type="button" class="btn btn-outline" data-dismiss="modal">保存</button>--%>
+                                    </div>
                                 </div>
-
-                                <!-- /.modal-dialog -->
+                                <!-- /.modal-content -->
                             </div>
-                            <!--
-                        <tfoot>
-                        <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
-                        </tr>
-                        </tfoot>-->
-                        </table>
-                        <!--数据列表/-->
 
-                        <!--工具栏-->
-                      <%--  <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm"
-                                       placeholder="搜索"> <span
-                                    class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </div>--%>
-                        <!--工具栏/-->
+                            <!-- /.modal-dialog -->
 
+                        </form>
                     </div>
-                    <!-- 数据表格 /-->
+                    <!--
+                <tfoot>
+                <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>CSS grade</th>
+                </tr>
+                </tfoot>-->
+                    </table>
+                    <!--数据列表/-->
 
+                    <!--工具栏-->
+                    <%--  <div class="box-tools pull-right">
+                          <div class="has-feedback">
+                              <input type="text" class="form-control input-sm"
+                                     placeholder="搜索"> <span
+                                  class="glyphicon glyphicon-search form-control-feedback"></span>
+                          </div>
+                      </div>--%>
+                    <!--工具栏/-->
 
                 </div>
-                <!-- /.box-body -->
-
-                <!-- .box-footer-->
-                <div class="box-footer">
-                    <div class="pull-left">
-                        <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页 <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select> 条
-                        </div>
-                    </div>
-
-                    <div class="box-tools pull-right">
-                        <ul class="pagination">
-                            <li><a href="#" aria-label="Previous">首页</a></li>
-                            <li><a href="#">上一页</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">下一页</a></li>
-                            <li><a href="#" aria-label="Next">尾页</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-                <!-- /.box-footer-->
+                <!-- 数据表格 /-->
 
 
             </div>
+            <!-- /.box-body -->
 
-        </section>
-        <!-- 正文区域 /-->
+            <!-- .box-footer-->
+            <div class="box-footer">
+                <div class="pull-left">
+                    <div class="form-group form-inline" onchange="changePageSize()">
+                        总共${pageInfo.pages}页，共${pageInfo.total}条数据。 每页
+                        <select class="form-control" id="changePageSize">
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select> 条
+                    </div>
+                </div>
 
+                <div class="box-tools pull-right">
+                    <ul class="pagination">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/payment/findAll.do?page=1&size=${pageInfo.pageSize}"
+                               aria-label="Previous">首页</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/payment/findAll.do?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}">上一页</a>
+                        </li>
+                        <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/payment/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a>
+                            </li>
+                        </c:forEach>
+
+                        <li>
+                            <a href="${pageContext.request.contextPath}/payment/findAll.do?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}">下一页</a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/payment/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}"
+                               aria-label="Next">尾页</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /.box-footer-->
+
+
+
+
+    </section>
+    <!-- 正文区域 /-->
+
+</div>
+<!-- @@close -->
+<!-- 内容区域 /-->
+
+<!-- 底部导航 -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.8
     </div>
-    <!-- @@close -->
-    <!-- 内容区域 /-->
-
-    <!-- 底部导航 -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.8
-        </div>
-        <strong>Copyright &copy; 2014-2017 <a
-                href="http://www.itcast.cn">研究院研发部</a>.
-        </strong> All rights reserved.
-    </footer>
-    <!-- 底部导航 /-->
+    <strong>Copyright &copy; duyu
+    </strong> All rights reserved.
+</footer>
+<!-- 底部导航 /-->
 
 </div>
 
@@ -520,6 +603,13 @@
 <script
         src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script>
+    <%
+         String Message=(String) request.getAttribute("Message");
+         if (Message!=null&&!"".equals(Message)){
+             %>
+    alert("<%=Message %>");<%
+		 }
+		%>
     $(document).ready(function () {
         // 选择框
         $(".select2").select2();
@@ -529,37 +619,79 @@
             locale: 'zh-CN'
         });
     });
-    function delteAccount(accountId) {
-        var id=accountId;
-        if (confirm("是否要删除该用户")){
-            location.href="${pageContext.request.contextPath}/account/delAccountById.do?id="+id;
+    function confirmPayment(){
+        var url='${pageContext.request.contextPath}/payment/confirmPaymentToBank.do';
+        if (confirm("确定是否生成银行指令")){
+            $("#form").attr('action',url);
+            $("#form").submit();
+        }
+    }
+    function updateBackPayment(){
+        var url='${pageContext.request.contextPath}/payment/updateBackPayment.do';
+        if (confirm("确定是否退回")){
+            $("#form").attr('action',url);
+            $("#form").submit();
         }
     }
 
+   function updatePayment() {
+       var url='${pageContext.request.contextPath}/payment/paymentUpdate.do';
+       $("#form").attr('action',url);
+       $("#form").submit();
+
+   }
+   function deletePayment() {
+       var url='${pageContext.request.contextPath}/payment/paymentDelete.do';
+       if (confirm("确定是否删除")){
+           $("#form").attr('action',url);
+           $("#form").submit();
+       }
+   }
+    function changePageSize() {
+        //获取下拉框的值
+        var pageSize = $("#changePageSize").val();
+
+        //向服务器发送请求，改变没页显示条数
+        location.href = "${pageContext.request.contextPath}/payment/findAll.do?page=1&size="
+            + pageSize;
+    }
+
     function findById(id) {
-       /* alert(id);*/
+        /* alert(id);*/
         $.ajax({
-            url:'${pageContext.request.contextPath}/account/findById.do',//请求地址
-            type:'post',//请求类型
-            contentType:"application/json;charset=utf-8",
-            dataType:'json',//后台返回数据类型
-            data:{id:id},//传入后台数据
-            success : function(data) {
-               /* alert(eval(data).id);*/
-                $("#accountName").text(eval(data).accountName);
-                $("#accountNo").text(eval(data).accountNo);
-                $("#accountPurposeId").text(eval(data).accountPurposeId);
-                $("#accountType").text(eval(data).accountType);
-                $("#bankName").text(eval(eval(data).bankId).bankName);
-                $("#bankProvince").text(eval(eval(data).bankId).bankProvince);
-                $("#bankCity").text(eval(eval(data).bankId).bankCity);
-                $("#uniteCode").text(eval(eval(data).bankId).uniteCode);
+            url: '${pageContext.request.contextPath}/payment/findById.do',//请求地址
+            type: 'post',//请求类型
+            contentType: "application/json;charset=utf-8",
+            dataType: 'json',//后台返回数据类型
+            data: {id: id},//传入后台数据
+            success: function (data) {
+                /* alert(eval(data).id);*/
+                $("#paymentId").val(eval(data).paymentId);
+                $("#paymentDate").val(eval(data).paymentDate);
+                $("#accountName").val(eval(eval(data).paymentAccountId).accountName);
+                $("#accountNo").val(eval(eval(data).paymentAccountId).accountNo);
+                $("#accountPurposeId").val(eval(eval(data).paymentAccountId).accountPurposeId);
+                $("#currencyId").val(eval(eval(data).paymentAccountId).currencyid);
+                $("#accountType").val(eval(eval(data).paymentAccountId).accountType);
+                $("#paymentAmount").val(eval(data).paymentAmount);
+                $("#bankName").val(eval(eval(eval(data).paymentAccountId).bankId).bankName);
+                $("#uniteCode").val(eval(eval(eval(data).paymentAccountId).bankId).uniteCode);
+                $("#bankProvince").val(eval(eval(eval(data).paymentAccountId).bankId).bankProvince);
+                $("#bankCity").val(eval(eval(eval(data).paymentAccountId).bankId).bankCity);
+                $("#recName").val(eval(data).recName);
+                $("#recAccount").val(eval(data).recAccount);
+                $("#recBankName").val(eval(data).recBankName);
+                $("#recUniteCode").val(eval(data).recUniteCode);
+                $("#recProvince").val(eval(data).recProvince);
+                $("#reCity").val(eval(data).reCity);
+                $("#memo").val(eval(data).memo);
             },
-            error:function(data){
+            error: function (data) {
                 alert("数据服务异常");
             }
         })
     }
+
     // 设置激活菜单
     function setSidebarActive(tagUri) {
         var liObj = $("#" + tagUri);
