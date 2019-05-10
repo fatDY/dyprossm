@@ -65,4 +65,12 @@ public interface IPaymentService {
      * @return
      */
     List<Payment> findAllConfirm(int page, int size) throws Exception;
+
+    /**
+     * 查询所有银行指令付款单据
+     * @param page
+     * @param size
+     * @return
+     */
+    List<Payment> findPaymentToBank(int page, int size) throws Exception;
 }

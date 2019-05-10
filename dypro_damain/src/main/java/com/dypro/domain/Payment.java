@@ -30,7 +30,7 @@ public class Payment {
             statement="保存";
         }
         if ("1".equals(statement)){
-            statement="提交中";
+            statement="审批中";
         }
         if ("2".equals(statement)){
             statement="指令发送中";

@@ -79,4 +79,10 @@ public class PaymentServiceImpl implements IPaymentService {
         return paymentDao.findAllConfirm();
     }
 
+    @Override
+    public List<Payment> findPaymentToBank(int page, int size) {
+        PageHelper.startPage(page,size);
+        return paymentDao.findPaymentToBank();
+    }
+
 }

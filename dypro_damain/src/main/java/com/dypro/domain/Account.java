@@ -30,6 +30,10 @@ public class Account {
     }
 
     public String getCurrencyid() {
+        if("CNY".equals(currencyid))
+        {
+            currencyid="人民币";
+        }
         return currencyid;
     }
 

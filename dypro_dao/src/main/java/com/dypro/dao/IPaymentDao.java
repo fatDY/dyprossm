@@ -78,4 +78,14 @@ public interface IPaymentDao {
             )
     })
     List<Payment> findAllConfirm() throws Exception;
+    @Select("select * from payment where statement='2' order by paymentdate desc")
+    @Results({
+            //查询关联对象
+            @Result(
+                    property = "paymentAccountId",
+                    column = "paymentaccountid",
+                    one = @One(select = "com.dypro.dao.IAccountDao.findById")
+            )
+    })
+    List<Payment> findPaymentToBank();
 }

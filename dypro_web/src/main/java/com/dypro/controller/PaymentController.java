@@ -2,6 +2,7 @@ package com.dypro.controller;
 
 import com.dypro.domain.Account;
 import com.dypro.domain.Payment;
+import com.dypro.service.CMB.ICmbSdkPgkService;
 import com.dypro.service.IAccountService;
 import com.dypro.service.IPaymentService;
 import com.dypro.utils.PaymentCheckUtils;
@@ -25,6 +26,26 @@ public class PaymentController {
     private IPaymentService paymentService;
     @Autowired
     private IAccountService accountService;
+    @Autowired
+    private ICmbSdkPgkService cmbSdkPgkService;
+
+    /**
+     * 查询所有指令状态付款单
+     * @param page
+     * @param size
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/findPaymentToBank.do")
+    public ModelAndView findPaymentToBank(@RequestParam(name = "page",required = true,defaultValue = "1")int page,
+                                       @RequestParam(name = "size",required = true,defaultValue = "5") int size) throws Exception {
+        ModelAndView mv=new ModelAndView();
+        List<Payment> paymentList = paymentService.findPaymentToBank(page,size);
+        PageInfo pageInfo=new PageInfo(paymentList);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("payment/payment-bank-list");
+        return mv;
+    }
 
     /**
      * 指令发送确认
@@ -38,6 +59,8 @@ public class PaymentController {
         if (ids.length>0){
             for (String id : ids) {
                 Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                //将paymentInfo封装进银行指令中
+                cmbSdkPgkService.savePaymentToCmb(paymentInfo);
                 if (paymentInfo.getStatement().equals("提交中")){
                     String statement=String.valueOf(2);
                     paymentService.updateConfirmPayment(id,statement);
@@ -47,6 +70,13 @@ public class PaymentController {
         mv.setViewName("redirect:findAllConfirm.do");
         return mv;
     }
+
+    /**
+     * 复核单据退回
+     * @param ids
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/updateBackPayment.do")
     public ModelAndView updateBackPayment(@RequestParam(name = "ids") String[] ids) throws Exception{
         ModelAndView mv=new ModelAndView();
@@ -59,7 +89,7 @@ public class PaymentController {
                     return mv;
                 }
                 System.out.println(paymentInfo.getStatement());
-                if (paymentInfo.getStatement().equals("提交中")){
+                if (paymentInfo.getStatement().equals("审批中")){
                     String statement=String.valueOf(0);
                     paymentService.updateConfirmPayment(id,statement);
                 }
