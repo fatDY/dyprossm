@@ -71,4 +71,11 @@ public interface IRoleService {
      * @param roleid
      */
     void delRoleById(Integer roleid) throws Exception;
+
+    /**
+     * 根据角色信息查询
+     * @param roleName
+     * @return
+     */
+    Role findByName(String roleName) throws Exception;
 }

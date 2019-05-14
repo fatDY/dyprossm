@@ -198,8 +198,15 @@ public class RoleController {
         if (role.getRoleName() != "" && !"".equals(role.getRoleName())
                 && role.getRoleDesc() != "" && !"".equals(role.getRoleDesc())) {
             try {
-                roleService.save(role);
-                return "redirect:findAll.do";
+             Role role1=roleService.findByName(role.getRoleName());
+             if (role1==null){
+                 roleService.save(role);
+                 return "redirect:findAll.do";
+             }
+            else {
+                 request.setAttribute("Message", "添加角色失败，请检查角色是否已存在");
+                 return "role/role-add";
+             }
             } catch (Exception e) {
                 request.setAttribute("Message", "添加角色失败，请检查角色是否已存在");
                 return "role/role-add";

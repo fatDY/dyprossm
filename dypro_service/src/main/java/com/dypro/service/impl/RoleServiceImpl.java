@@ -67,4 +67,9 @@ public class RoleServiceImpl implements IRoleService {
     public void delRoleById(Integer roleid) {
         roleDao.delRoleById(roleid);
     }
+
+    @Override
+    public Role findByName(String roleName) throws Exception {
+        return roleDao.findByName(roleName);
+    }
 }

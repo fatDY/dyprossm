@@ -47,7 +47,8 @@ public interface IUserDao {
     )
     UserInfo findById(@Param("userid") Integer id);
 
-    @Select("select * from role where id not in(select roleId from users_role where userId=#{userId})")
+    @Select("select * from role where id not in(select roleId from users_role " +
+            "where userId=#{userId})")
     List<Role> findOtherRoles(Integer id);
 
     @Insert("insert into users_role (userId,roleId) values(#{userId},#{roleId})")
@@ -63,5 +64,6 @@ public interface IUserDao {
     void delUserById(@Param("userId") Integer userId) throws Exception;
 
     @Delete("delete from users_role where userId=#{userId} && roleId=#{roleId}")
-    void removeRoleToUser(@Param("userId") Integer userId, @Param("roleId") String roleId) throws Exception;
+    void removeRoleToUser(@Param("userId") Integer userId, @Param("roleId") String roleId)
+            throws Exception;
 }

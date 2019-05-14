@@ -60,4 +60,7 @@ public interface IRoleDao {
 
     @Delete("delete from role where id=#{roleId}")
     void delRoleById(@Param("roleId") Integer roleId);
+
+    @Select("select * from role where rolename=#{roleName}")
+    Role findByName(@Param("roleName")String roleName) throws Exception;
 }

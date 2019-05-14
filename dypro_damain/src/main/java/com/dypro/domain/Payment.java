@@ -35,7 +35,7 @@ public class Payment {
         if ("2".equals(statement)){
             statement="指令发送中";
         }
-        if (!"保存".equals(statement)&&!"提交中".equals(statement)&&!"指令发送中".equals(statement)){
+        if (!"保存".equals(statement)&&!"审批中".equals(statement)&&!"指令发送中".equals(statement)){
             statement="未知";
         }
         return statement;
