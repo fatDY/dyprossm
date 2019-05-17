@@ -39,4 +39,12 @@ public interface IBankService {
      * @param bank
      */
     void update(Bank bank) throws Exception;
+
+    /**
+     * 根据银行名查询返回Bank类
+     * @param bankName
+     * @return
+     * @throws Exception
+     */
+    Bank findByBankName(String bankName) throws Exception;
 }

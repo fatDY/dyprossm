@@ -35,4 +35,7 @@ public interface IBankDao {
     @Update("update bank set bankName=#{bankName},bankProvince=#{bankProvince},bankCity=#{bankCity}" +
             "where id=#{id}")
     void update(Bank bank) throws Exception;
+
+    @Select("select * from bank where bankname=#{bankName}")
+    Bank findByBankName(@Param("bankName") String bankName) throws Exception;
 }

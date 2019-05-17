@@ -110,18 +110,18 @@
                         <div class="col-md-2 title">付款帐户名</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="accountName"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.accountName}">${paymentList.paymentAccountId.accountName}</c:when><c:otherwise>${accountList.accountName}</c:otherwise></c:choose>" readonly>
-                            <input type="hidden" value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.id}">${paymentList.paymentAccountId.id}</c:when><c:otherwise>${accountList.id}</c:otherwise></c:choose>" name="accountId">
+                                   value="<c:choose><c:when test="${not empty accountList.accountName}">${accountList.accountName}</c:when><c:otherwise>${paymentList.paymentAccountId.accountName}</c:otherwise></c:choose>" readonly>
+                            <input type="hidden" value="<c:choose><c:when test="${not empty accountList.id}">${accountList.id}</c:when><c:otherwise>${paymentList.paymentAccountId.id}</c:otherwise></c:choose>" name="accountId">
                         </div>
                         <div class="col-md-2 title">付款账号</div>
                         <div class="col-md-4 data">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="glyphicon glyphicon-search"
-                                       onclick="location.href='${pageContext.request.contextPath}/payment/findAccountToPayment.do?paymentId=${paymentId}'"></i>
+                                       onclick="location.href='${pageContext.request.contextPath}/payment/findAccountToPayment.do?paymentId=${paymentList.paymentId}'"></i>
                                 </div>
                                 <input type="text" class="form-control" id="accountNo"
-                                       value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.accountNo}">${paymentList.paymentAccountId.accountNo}</c:when><c:otherwise>${accountList.accountNo}</c:otherwise></c:choose>" readonly>
+                                       value="<c:choose><c:when test="${not empty accountList.accountNo}">${accountList.accountNo}</c:when><c:otherwise>${paymentList.paymentAccountId.accountNo}</c:otherwise></c:choose>" readonly>
                             </div>
 
                         </div>
@@ -133,37 +133,37 @@
                         <div class="col-md-2 title">币种</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="currencyId"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.currencyid}">${paymentList.paymentAccountId.currencyid}</c:when><c:otherwise>${accountList.currencyid}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.currencyid}">${accountList.currencyid}</c:when><c:otherwise>${paymentList.paymentAccountId.currencyid}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">账户用途</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control"
-                                   id="accountPurposeId" value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.accountPurposeId}">${paymentList.paymentAccountId.accountPurposeId}</c:when><c:otherwise>${accountList.accountPurposeId}</c:otherwise></c:choose>" readonly>
+                                   id="accountPurposeId" value="<c:choose><c:when test="${not empty accountList.accountPurposeId}">${accountList.accountPurposeId}</c:when><c:otherwise>${paymentList.paymentAccountId.accountPurposeId}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">账户性质</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="accountType"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.accountType}">${paymentList.paymentAccountId.accountType}</c:when><c:otherwise>${accountList.accountType}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.accountType}">${accountList.accountType}</c:when><c:otherwise>${paymentList.paymentAccountId.accountType}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">银行名称</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="bankName"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.bankId.bankName}">${paymentList.paymentAccountId.bankId.bankName}</c:when><c:otherwise>${accountList.bankId.bankName}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.bankId.bankName}">${accountList.bankId.bankName}</c:when><c:otherwise>${paymentList.paymentAccountId.bankId.bankName}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">银行联行号</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="uniteCode"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.bankId.uniteCode}">${paymentList.paymentAccountId.bankId.uniteCode}</c:when><c:otherwise>${accountList.bankId.uniteCode}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.bankId.uniteCode}">${accountList.bankId.uniteCode}</c:when><c:otherwise>${paymentList.paymentAccountId.bankId.uniteCode}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">银行所属省</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="bankProvince"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.bankId.bankProvince}">${paymentList.paymentAccountId.bankId.bankProvince}</c:when><c:otherwise>${accountList.bankId.bankProvince}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.bankId.bankProvince}">${accountList.bankId.bankProvince}</c:when><c:otherwise>${paymentList.paymentAccountId.bankId.bankProvince}</c:otherwise></c:choose>" readonly>
                         </div>
                         <div class="col-md-2 title">银行所属市</div>
                         <div class="col-md-4 data">
                             <input type="text" class="form-control" id="bankCity"
-                                   value="<c:choose><c:when test="${not empty paymentList.paymentAccountId.bankId.bankCity}">${paymentList.paymentAccountId.bankId.bankCity}</c:when><c:otherwise>${accountList.bankId.bankCity}</c:otherwise></c:choose>" readonly>
+                                   value="<c:choose><c:when test="${not empty accountList.bankId.bankCity}">${accountList.bankId.bankCity}</c:when><c:otherwise>${paymentList.paymentAccountId.bankId.bankCity}</c:otherwise></c:choose>" readonly>
                         </div>
                     </div>
                 </div>

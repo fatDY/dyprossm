@@ -68,12 +68,13 @@ public class BankController {
                 &&bank.getBankProvince()!=null&&!"".equals(bank.getBankProvince())  ){
             //判断当前银行是否已存在
           Bank bankinfo= bankService.findByUniteCode(bank.getUniteCode());
-          if (bankinfo==null){
+            Bank bankinfo1= bankService.findByBankName(bank.getBankName());
+          if (bankinfo==null&&bankinfo1==null){
               bankService.insertBank(bank);
               return "redirect:findAll.do";
           }
           else {
-              request.setAttribute("Message", "添加失败，该银行已存在，请检查联行号");
+              request.setAttribute("Message", "添加失败，该银行已存在，请检查联行号与银行名");
               return "bank/bankB-add";
           }
         }

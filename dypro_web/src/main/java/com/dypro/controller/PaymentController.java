@@ -61,7 +61,7 @@ public class PaymentController {
                 Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
                 //将paymentInfo封装进银行指令中
                 cmbSdkPgkService.savePaymentToCmb(paymentInfo);
-                if (paymentInfo.getStatement().equals("提交中")){
+                if (paymentInfo.getStatement().equals("审批中")){
                     String statement=String.valueOf(2);
                     paymentService.updateConfirmPayment(id,statement);
                 }
@@ -122,21 +122,26 @@ public class PaymentController {
      * @throws Exception
      */
     @RequestMapping("/confirmPayment.do")
-    public ModelAndView confirmPayment(@RequestParam(name = "ids") String[] ids) throws Exception {
+    public ModelAndView confirmPayment(@RequestParam(name = "ids",defaultValue="empty") String[] ids) throws Exception {
         ModelAndView mv=new ModelAndView();
         if (ids.length>0){
             for (String id : ids) {
-                Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
-                if (!paymentInfo.getStatement().equals("保存")){
-                    mv.addObject("Message","该单据已提交请等待复核");
-                    mv.setViewName("forward:findAll.do");
-                    return mv;
+                if ("empty".equals(id)){
+                    mv.setViewName("redirect:findAll.do");
                 }
-                System.out.println(paymentInfo.getStatement());
-                if (paymentInfo.getStatement().equals("保存")){
-                    String statement=String.valueOf(1);
-                    paymentService.updateConfirmPayment(id,statement);
-                }
+                else{
+                    Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                    if (!paymentInfo.getStatement().equals("保存")){
+                        mv.addObject("Message","该单据已提交请等待复核");
+                        mv.setViewName("forward:findAll.do");
+                        return mv;
+                    }
+                   // System.out.println(paymentInfo.getStatement());
+                    if (paymentInfo.getStatement().equals("保存")){
+                        String statement=String.valueOf(1);
+                        paymentService.updateConfirmPayment(id,statement);
+                    }}
+
             }
         }
         mv.setViewName("redirect:findAll.do");
@@ -149,20 +154,24 @@ public class PaymentController {
      * @throws Exception
      */
     @RequestMapping("/paymentDelete.do")
-    public ModelAndView paymentDelete(@RequestParam(name = "ids") String[] ids) throws Exception {
+    public ModelAndView paymentDelete(@RequestParam(name = "ids",defaultValue="empty") String[] ids) throws Exception {
       ModelAndView mv=new ModelAndView();
         if (ids.length>0){
             for (String id : ids) {
-                Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
-                if (!paymentInfo.getStatement().equals("保存")){
-                    mv.addObject("Message","该单据已提交请等待复核后处理");
-                    mv.setViewName("forward:findAll.do");
-                    return mv;
-                }
-                if (paymentInfo.getStatement().equals("保存")){
-                    paymentService.delPaymentById(ids);
+                if ("empty".equals(id)){
                     mv.setViewName("redirect:findAll.do");
                 }
+                else { Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                    if (!paymentInfo.getStatement().equals("保存")){
+                        mv.addObject("Message","该单据已提交请等待复核后处理");
+                        mv.setViewName("forward:findAll.do");
+                        return mv;
+                    }
+                    if (paymentInfo.getStatement().equals("保存")){
+                        paymentService.delPaymentById(ids);
+                        mv.setViewName("redirect:findAll.do");
+                    }}
+
             }
 
         }
@@ -205,26 +214,32 @@ public class PaymentController {
      * @throws Exception
      */
     @RequestMapping("/paymentUpdate.do")
-    public ModelAndView paymentUpdate(@RequestParam(name = "ids") String[] ids) throws Exception {
+    public ModelAndView paymentUpdate(@RequestParam(name = "ids",defaultValue="empty") String[] ids,HttpServletRequest request) throws Exception {
         ModelAndView mv=new ModelAndView();
         if(ids.length!=1){
             mv.setViewName("redirect:findAll.do");
         }
         else {
             for (String id : ids) {
-                Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
-                if (!paymentInfo.getStatement().equals("保存")){
-                    mv.addObject("Message","该单据已提交请等待复核，无法修改");
-                    mv.setViewName("forward:findAll.do");
-                 //   return mv;
+                if ("empty".equals(id)){
+                    mv.setViewName("redirect:findAll.do");
                 }
-               // System.out.println(paymentInfo.getStatement());
-                if (paymentInfo.getStatement().equals("保存")){
-                    Integer id1=Integer.valueOf(id);
-                    Payment paymentList = paymentService.findById(id1);
-                    mv.addObject("paymentList",paymentList);
-                    mv.setViewName("payment/payment-update");
-                   // return mv;
+                else {
+                    Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                    if (!paymentInfo.getStatement().equals("保存")){
+                        mv.addObject("Message","该单据已提交请等待复核，无法修改");
+                        mv.setViewName("forward:findAll.do");
+                        //   return mv;
+                    }
+                    // System.out.println(paymentInfo.getStatement());
+                    if (paymentInfo.getStatement().equals("保存")){
+                        Integer id1=Integer.valueOf(id);
+                            Payment paymentList = paymentService.findById(id1);
+                            mv.addObject("paymentList",paymentList);
+
+                        mv.setViewName("payment/payment-update");
+                        // return mv;
+                    }
                 }
             }
 
@@ -279,8 +294,11 @@ public class PaymentController {
             Integer id=Integer.valueOf(accountIds[0]);
             Account accountList= accountService.findById(id);
             mv.addObject("accountList",accountList);
+            Payment paymentList = paymentService.findByPaymentId(paymentId);
+            mv.addObject("paymentList",paymentList);
             mv.addObject("paymentId",paymentId);
-            mv.setViewName("forward:paymentAddView.do");
+          //  mv.addObject("payIds",);
+            mv.setViewName("payment/payment-update");
             return mv;
         }
     }

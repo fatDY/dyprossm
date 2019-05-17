@@ -39,4 +39,9 @@ public class IBankServiceImpl implements IBankService {
     public void update(Bank bank) throws Exception {
         bankDao.update(bank);
     }
+
+    @Override
+    public Bank findByBankName(String bankName) throws Exception {
+        return bankDao.findByBankName(bankName);
+    }
 }
