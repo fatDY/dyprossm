@@ -85,6 +85,7 @@
 
 				</ul></li>
             </security:authorize>
+			<security:authorize access="hasRole('ADMIN')||hasRole('PAYADD')||hasRole('PAYSEND')||hasRole('PAYACT')">
 			<li class="treeview"><a href="#"> <i class="fa fa-cube"></i>
 				<span>付款管理</span> <span class="pull-right-container"> <i
 						class="fa fa-angle-left pull-right"></i>
@@ -114,7 +115,7 @@
 
 
 				</ul></li>
-
+			</security:authorize>
 		</ul>
 	</section>
 	<!-- /.sidebar -->

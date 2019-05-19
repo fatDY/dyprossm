@@ -295,10 +295,17 @@ public class PaymentController {
             Account accountList= accountService.findById(id);
             mv.addObject("accountList",accountList);
             Payment paymentList = paymentService.findByPaymentId(paymentId);
-            mv.addObject("paymentList",paymentList);
-            mv.addObject("paymentId",paymentId);
+            if(paymentList!=null){
+                mv.addObject("paymentList",paymentList);
+                mv.setViewName("payment/payment-update");
+            }
+           else {
+                mv.addObject("paymentId",paymentId);
+                mv.setViewName("payment/payment-add");
+            }
+
           //  mv.addObject("payIds",);
-            mv.setViewName("payment/payment-update");
+
             return mv;
         }
     }
