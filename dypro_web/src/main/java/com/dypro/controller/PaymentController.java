@@ -2,11 +2,16 @@ package com.dypro.controller;
 
 import com.dypro.domain.Account;
 import com.dypro.domain.Payment;
+import com.dypro.domain.cmb.Info;
+import com.dypro.domain.cmb.SdkPayDtx;
+import com.dypro.domain.cmb.SdkPayRqx;
+import com.dypro.domain.cmb.cmbSdkPgk;
 import com.dypro.service.CMB.ICmbSdkPgkService;
 import com.dypro.service.IAccountService;
 import com.dypro.service.IPaymentService;
 import com.dypro.utils.PaymentCheckUtils;
 import com.dypro.utils.RandomCharDataUtils;
+import com.dypro.utils.WriteXml;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 @Controller
 @RequestMapping("/payment")
@@ -54,17 +60,31 @@ public class PaymentController {
      * @throws Exception
      */
     @RequestMapping("confirmPaymentToBank.do")
-    public ModelAndView confirmPaymentToBank(@RequestParam(name = "ids") String[] ids) throws Exception{
+    public ModelAndView confirmPaymentToBank(@RequestParam(name = "ids",defaultValue="empty") String[] ids) throws Exception{
         ModelAndView mv=new ModelAndView();
         if (ids.length>0){
             for (String id : ids) {
-                Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
-                //将paymentInfo封装进银行指令中
-                cmbSdkPgkService.savePaymentToCmb(paymentInfo);
-                if (paymentInfo.getStatement().equals("审批中")){
-                    String statement=String.valueOf(2);
-                    paymentService.updateConfirmPayment(id,statement);
+                if ("empty".equals(id)){
+                    mv.setViewName("redirect:findAllConfirm.do");
+                }else {
+                    Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                    //将paymentInfo封装进银行指令中
+                    cmbSdkPgkService.savePaymentToCmb(paymentInfo);
+                    if (paymentInfo.getStatement().equals("审批中")){
+                        String statement=String.valueOf(2);
+                        paymentService.updateConfirmPayment(id,statement);
+                    }
+                    //查询数据库中是否生成，并生成xml文件
+                    cmbSdkPgk cmbSdkPgk = cmbSdkPgkService.findById(paymentInfo.getPaymentId());
+                    WriteXml writeXml=new WriteXml();
+                    List<Class> list=new ArrayList<>();
+                    list.add(Info.class);
+                    list.add(SdkPayDtx.class);
+                    list.add(SdkPayRqx.class);
+                    String filepath=System.getProperty("user.dir")+"\\src\\main\\resources\\xml\\"+paymentInfo.getPaymentId()+".xml";
+                    writeXml.writeXmlDocument(cmbSdkPgk,list,"GBK",filepath);
                 }
+
             }
         }
         mv.setViewName("redirect:findAllConfirm.do");
@@ -78,21 +98,25 @@ public class PaymentController {
      * @throws Exception
      */
     @RequestMapping("/updateBackPayment.do")
-    public ModelAndView updateBackPayment(@RequestParam(name = "ids") String[] ids) throws Exception{
+    public ModelAndView updateBackPayment(@RequestParam(name = "ids",defaultValue="empty") String[] ids) throws Exception{
         ModelAndView mv=new ModelAndView();
         if (ids.length>0){
             for (String id : ids) {
-                Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
-                if (paymentInfo.getStatement().equals("指令发送中")){
-                    mv.addObject("Message","该单据已提交指令发送");
-                    mv.setViewName("forward:findAllConfirm.do");
-                    return mv;
+                if ("empty".equals(id)){
+                    mv.setViewName("redirect:findAllConfirm.do");
                 }
-                System.out.println(paymentInfo.getStatement());
-                if (paymentInfo.getStatement().equals("审批中")){
-                    String statement=String.valueOf(0);
-                    paymentService.updateConfirmPayment(id,statement);
-                }
+                else {Payment paymentInfo = paymentService.findById(Integer.valueOf(id));
+                    if (paymentInfo.getStatement().equals("指令发送中")){
+                        mv.addObject("Message","该单据已提交指令发送");
+                        mv.setViewName("forward:findAllConfirm.do");
+                        return mv;
+                    }
+                    System.out.println(paymentInfo.getStatement());
+                    if (paymentInfo.getStatement().equals("审批中")){
+                        String statement=String.valueOf(0);
+                        paymentService.updateConfirmPayment(id,statement);
+                    }}
+
             }
         }
         mv.setViewName("redirect:findAllConfirm.do");
