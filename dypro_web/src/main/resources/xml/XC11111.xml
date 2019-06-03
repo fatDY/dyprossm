@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<CMBSDKPGK>
+  <Info>
+    <funnam>Payment</funnam>
+    <dattyp>2</dattyp>
+    <lgnam>Test</lgnam>
+  </Info>
+  <SdkPayRqx>
+    <busCod>N2031</busCod>
+    <busMod>00001</busMod>
+  </SdkPayRqx>
+  <SdkPayDtx>
+    <yurRef>XC11111</yurRef>
+    <eptDat/>
+    <eptTim/>
+    <dbtAcc>63147202302302</dbtAcc>
+    <c_dbtBbk>武汉</c_dbtBbk>
+    <trsAmt>1.00</trsAmt>
+    <c_ccyNbr>人民币</c_ccyNbr>
+    <stlChn>N</stlChn>
+    <nuSage>一般账户</nuSage>
+    <crtAcc>12321312</crtAcc>
+    <crtNam/>
+    <crtBnk>测试</crtBnk>
+    <crtpvc>湖北</crtpvc>
+    <crtCty>武汉</crtCty>
+    <crtSqn/>
+    <trsTyp>100001</trsTyp>
+  </SdkPayDtx>
+</CMBSDKPGK>

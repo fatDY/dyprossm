@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<USERINFO>
+  <Integer>
+    <id>1</id>
+  </Integer>
+  <String>
+    <username>sss</username>
+  </String>
+  <String>
+    <password>sss</password>
+  </String>
+  <Integer>
+    <status>0</status>
+  </Integer>
+  <String>
+    <statusStr>未开启</statusStr>
+  </String>
+  <ArrayList>
+    <roles>[]</roles>
+  </ArrayList>
+</USERINFO>
